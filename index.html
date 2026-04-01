@@ -3,103 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Gullak</title>
+    <title>Digital Gullak App</title>
     <style>
         :root { --primary: #f1c40f; --bg: #0d1117; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; margin: 0; padding: 15px; text-align: center; }
         
-        /* Header */
+        /* Top Header */
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .g-logo { width: 50px; height: 50px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #4285F4; font-size: 26px; cursor: pointer; border: 2px solid #4285F4; }
-        .user-icon { width: 50px; height: 50px; border-radius: 50%; background: #2c3e50; display: flex; align-items: center; justify-content: center; border: 2px solid #95a5a6; cursor: pointer; }
+        .g-logo { width: 45px; height: 45px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #4285F4; font-size: 26px; cursor: pointer; border: 2px solid #4285F4; box-shadow: 0 0 10px rgba(66, 133, 244, 0.5); }
+        .user-icon { width: 45px; height: 45px; border-radius: 50%; background: #2c3e50; display: flex; align-items: center; justify-content: center; border: 2px solid #95a5a6; }
         .timer-display { background: rgba(255,255,255,0.08); padding: 10px; border-radius: 12px; border: 1.5px solid var(--primary); font-size: 18px; flex-grow: 1; margin: 0 12px; color: var(--primary); font-weight: bold; }
 
-        /* Overlays */
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0d1117; z-index: 2000; padding: 20px; box-sizing: border-box; }
-        .close-btn { background: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 8px; float: right; cursor: pointer; }
-        .card { background: #161b22; padding: 20px; border-radius: 15px; border: 1px solid #30363d; margin-top: 50px; text-align: left; }
-        .history-item { padding: 15px; background: #0d1117; margin-bottom: 10px; border-radius: 8px; border: 1px solid #333; cursor: pointer; text-align: center; font-size: 20px; }
+        /* Goal Selection Modal */
+        #goalModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-content { background: #161b22; padding: 25px; border-radius: 20px; width: 85%; border: 2px solid var(--primary); text-align: left; }
+        .goal-item { padding: 15px; margin: 8px 0; background: #30363d; border-radius: 10px; cursor: pointer; font-size: 18px; transition: 0.3s; }
+        .goal-item:hover { background: #444; border-left: 5px solid var(--primary); }
 
-        /* Main Elements */
-        input, select { width: 100%; padding: 14px; margin: 10px 0; border-radius: 10px; background: #0d1117; color: white; border: 1px solid #333; font-size: 16px; box-sizing: border-box; }
+        /* Form Controls */
+        .settings-box { background: #161b22; padding: 20px; border-radius: 15px; border: 1px solid #30363d; margin-bottom: 20px; }
+        select, input { width: 100%; padding: 14px; margin: 10px 0; border-radius: 10px; border: 1px solid #30363d; background: #0d1117; color: white; font-size: 16px; box-sizing: border-box; }
+
+        /* Progress Bar */
+        .payout-label { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 14px; color: #2ecc71; }
+        .payout-bar { background: #333; height: 18px; border-radius: 10px; overflow: hidden; margin-bottom: 20px; border: 1px solid #444; }
+        #fill { background: linear-gradient(90deg, #2ecc71, #27ae60); height: 100%; width: 0%; transition: 0.8s ease-in-out; }
+
+        /* Gullak Image - FIXED LINK */
         .gullak-area { margin: 25px 0; }
-        .gullak-img { width: 200px; filter: drop-shadow(0 0 15px rgba(241,196,15,0.4)); }
+        .gullak-img { width: 200px; height: auto; filter: drop-shadow(0 0 15px rgba(241,196,15,0.4)); }
         
-        .main-balance { font-size: 48px; font-weight: bold; margin: 10px 0; }
-        .btn-main { background: var(--primary); color: black; border: none; padding: 18px; width: 100%; border-radius: 12px; font-weight: bold; font-size: 20px; cursor: pointer; box-shadow: 0 4px 0 #b7950b; }
+        .main-balance { font-size: 45px; margin: 10px 0; font-weight: bold; color: white; text-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .btn-main { background: #238636; color: white; border: none; padding: 18px; width: 100%; border-radius: 12px; font-weight: bold; font-size: 18px; margin-top: 10px; cursor: pointer; box-shadow: 0 4px 0 #1a6328; }
+        .btn-main:active { transform: translateY(3px); box-shadow: none; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <div class="g-logo" onclick="toggleOverlay('goalMenu')">G</div>
+        <div class="g-logo" onclick="openGoals()" title="लक्ष्य चुनें">G</div>
         <div class="timer-display" id="headerAmo">Amo 00</div>
-        <div class="user-icon" onclick="toggleOverlay('signUpPage')">
+        <div class="user-icon">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
         </div>
     </div>
 
-    <div style="background:#161b22; padding:15px; border-radius:15px;">
-        <label id="targetLabel" style="color:var(--primary); font-weight:bold;">सपना चुनें</label>
+    <div id="goalModal">
+        <div class="modal-content">
+            <h2 style="color:var(--primary); margin-top:0;">सपना चुनें (Goal)</h2>
+            <div class="goal-item" onclick="setGoalType('📱 iPhone 16 Pro')">📱 iPhone 16 Pro</div>
+            <div class="goal-item" onclick="setGoalType('🏠 नया घर (Home)')">🏠 नया घर (Home)</div>
+            <div class="goal-item" onclick="setGoalType('💰 Loan चुकाना')">💰 Loan चुकाना</div>
+            <div class="goal-item" onclick="setGoalType('⚡ Mobile Recharge')">⚡ Recharge</div>
+            <div class="goal-item" onclick="setGoalType('🏍️ नयी Bike')">🏍️ नयी Bike</div>
+            <div class="goal-item" onclick="setGoalType('🎁 Family Gift')">🎁 Family Gift</div>
+            <button class="btn-main" onclick="closeGoals()" style="background:#e74c3c; box-shadow: 0 4px 0 #c0392b;">बंद करें</button>
+        </div>
+    </div>
+
+    <div class="settings-box">
+        <label id="selectedGoalText" style="color:var(--primary); font-weight:bold; font-size:18px;">लक्ष्य: कोई नहीं</label>
+        
         <select id="months">
-            <option>1 महीना</option>
-            <option>3 महीना</option>
-            <option>6 महीना</option>
-            <option>12 महीना</option>
+            <option value="1">1 महीना</option>
+            <option value="2">2 महीने</option>
+            <option value="3">3 महीने</option>
+            <option value="6">6 महीने</option>
+            <option value="12">12 महीने (1 साल)</option>
         </select>
-        <input type="number" id="customAdd" placeholder="कितना जमा करना है? (उदा. 500)">
+        
+        <input type="number" id="target" placeholder="लक्ष्य राशि (उदा. 10000)">
+        <button class="btn-main" onclick="startApp()">लक्ष्य सेट करें</button>
+    </div>
+
+    <div class="progress-box">
+        <div class="payout-label">
+            <span>Payout (प्रगति)</span>
+            <span id="payout-text">0%</span>
+        </div>
+        <div class="payout-bar"><div id="fill"></div></div>
     </div>
 
     <div class="gullak-area">
-        <img src="https://cdn-icons-png.flaticon.com/512/2633/2633320.png" class="gullak-img">
+        <img src="https://cdn-icons-png.flaticon.com/512/2633/2633320.png" class="gullak-img" alt="Gullak">
     </div>
 
     <div class="main-balance" id="bal">₹ 0</div>
-    <button class="btn-main" onclick="addMoney()">जमा</button>
-
-    <div id="goalMenu" class="overlay">
-        <button class="close-btn" onclick="toggleOverlay('goalMenu')">X</button>
-        <div class="card">
-            <h3>लक्ष्य चुनें</h3>
-            <div style="padding:10px; border-bottom:1px solid #333;" onclick="setGoal('🏍️ Bike')">🏍️ नयी Bike</div>
-            <div style="padding:10px; border-bottom:1px solid #333;" onclick="setGoal('🏠 अपना घर')">🏠 अपना घर</div>
-            <div style="padding:10px; border-bottom:1px solid #333;" onclick="setGoal('📱 iPhone')">📱 iPhone</div>
-        </div>
-    </div>
-
-    <div id="signUpPage" class="overlay">
-        <button class="close-btn" onclick="toggleOverlay('signUpPage')">X</button>
-        <div class="card">
-            <h2 style="text-align:center;">Sign Up / History</h2>
-            <div class="history-item" onclick="alert('00')">Deposit History</div>
-            <div class="history-item" onclick="alert('00')">Withdrawal History</div>
-            <p style="font-size:12px; color:#888; text-align:center;">हिस्ट्री देखने के लिए ऊपर क्लिक करें</p>
-        </div>
-    </div>
+    <button class="btn-main" style="background:var(--primary); color:black; box-shadow: 0 4px 0 #b7950b;" onclick="add(100)">+ ₹100 गुल्लक में डालें</button>
 
     <script>
-        let balance = 0;
+        let current = 0;
+        let goalAmount = 0;
 
-        function toggleOverlay(id) {
-            let el = document.getElementById(id);
-            el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+        function openGoals() { document.getElementById('goalModal').style.display = 'flex'; }
+        function closeGoals() { document.getElementById('goalModal').style.display = 'none'; }
+        
+        function setGoalType(name) {
+            document.getElementById('selectedGoalText').innerText = "लक्ष्य: " + name;
+            closeGoals();
         }
 
-        function setGoal(name) {
-            document.getElementById('targetLabel').innerText = "सपना: " + name;
-            toggleOverlay('goalMenu');
-        }
-
-        function addMoney() {
-            let val = document.getElementById('customAdd').value;
-            if(!val || val <= 0) {
-                alert("कृपया जमा करने वाली राशि लिखें!");
+        function startApp() {
+            goalAmount = document.getElementById('target').value;
+            if(!goalAmount || goalAmount <= 0) {
+                alert("कृपया पहले लक्ष्य राशि डालें!");
                 return;
             }
-            balance += parseInt(val);
-            document.getElementById('bal').innerText = "₹ " + balance;
-            document.getElementById('headerAmo').innerText = "Amo " + balance;
-            document.getElementById('customAdd').value = ""; // Clear input
+            alert("आपका लक्ष्य सेट हो गया! अब पैसे जोड़ना शुरू करें।");
+            update();
+        }
+
+        function add(n) {
+            current += n;
+            update();
+        }
+
+        function update() {
+            // Main Center Balance
+            document.getElementById('bal').innerText = "₹ " + current;
+            
+            // Header Balance
+            document.getElementById('headerAmo').innerText = "Amo " + current;
+            
+            // Progress Bar
+            if(goalAmount > 0) {
+                let p = Math.floor((current/goalAmount)*100);
+                if(p > 100) p = 100;
+                document.getElementById('fill').style.width = p + "%";
+                document.getElementById('payout-text').innerText = p + "%";
+            }
         }
     </script>
 </body>
