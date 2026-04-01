@@ -10,94 +10,92 @@
         
         /* Top Header */
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .g-logo { width: 45px; height: 45px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #4285F4; font-size: 24px; box-shadow: 0 0 10px rgba(255,255,255,0.2); }
-        .user-icon { width: 45px; height: 45px; border-radius: 50%; background: #2c3e50; display: flex; align-items: center; justify-content: center; border: 2px solid #95a5a6; overflow: hidden; }
-        .timer-display { background: rgba(255,255,255,0.08); padding: 10px; border-radius: 12px; border: 1.5px solid var(--primary); font-size: 18px; flex-grow: 1; margin: 0 12px; color: var(--primary); font-weight: bold; min-width: 100px; }
+        .g-logo { width: 45px; height: 45px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #4285F4; font-size: 24px; cursor: pointer; border: 2px solid #4285F4; }
+        .user-icon { width: 45px; height: 45px; border-radius: 50%; background: #2c3e50; display: flex; align-items: center; justify-content: center; border: 2px solid #95a5a6; }
+        .timer-display { background: rgba(255,255,255,0.08); padding: 10px; border-radius: 12px; border: 1.5px solid var(--primary); font-size: 18px; flex-grow: 1; margin: 0 12px; color: var(--primary); font-weight: bold; }
 
-        /* Goal Selection Section */
-        .goal-settings { background: #161b22; padding: 20px; border-radius: 15px; border: 1px solid #30363d; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        label { display: block; margin-bottom: 8px; font-size: 14px; color: #8b949e; }
-        select, input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #30363d; background: #0d1117; color: white; box-sizing: border-box; }
+        /* Goal Selection Modal */
+        #goalModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 100; justify-content: center; align-items: center; }
+        .modal-content { background: #161b22; padding: 20px; border-radius: 15px; width: 80%; border: 1px solid var(--primary); }
+        .goal-item { padding: 10px; margin: 5px; background: #30363d; border-radius: 8px; cursor: pointer; }
 
-        /* Payout Progress Bar */
+        /* Main Form */
+        .goal-settings { background: #161b22; padding: 20px; border-radius: 15px; border: 1px solid #30363d; margin-bottom: 20px; }
+        select, input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #30363d; background: #0d1117; color: white; font-size: 16px; }
+
         .progress-box { margin: 20px 5px; text-align: left; }
-        .payout-label { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 5px; color: #2ecc71; }
-        .payout-bar { background: #333; height: 16px; border-radius: 10px; overflow: hidden; border: 1px solid #444; }
-        #fill { background: linear-gradient(90deg, #2ecc71, #27ae60); height: 100%; width: 0%; transition: 0.6s ease-in-out; }
+        .payout-bar { background: #333; height: 16px; border-radius: 10px; overflow: hidden; }
+        #fill { background: linear-gradient(90deg, #2ecc71, #27ae60); height: 100%; width: 0%; transition: 0.6s; }
 
-        /* Gullak Image Section */
-        .gullak-area { margin: 25px 0; position: relative; }
-        .gullak-img { width: 190px; filter: drop-shadow(0 0 15px rgba(241, 196, 15, 0.2)); }
+        .gullak-area { margin: 25px 0; }
+        .gullak-img { width: 180px; filter: drop-shadow(0 0 15px rgba(241,196,15,0.3)); }
         
-        .main-balance { font-size: 42px; margin: 10px 0; color: white; font-weight: bold; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-        
-        /* Buttons */
-        .btn-main { background: #238636; color: white; border: none; padding: 16px; width: 100%; border-radius: 12px; font-weight: bold; font-size: 18px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 0 #1a6328; }
-        .btn-main:active { transform: translateY(3px); box-shadow: 0 1px 0 #1a6328; }
-        .btn-add { background: var(--primary); color: #000; margin-top: 15px; box-shadow: 0 4px 0 #b7950b; }
-        .btn-add:active { box-shadow: 0 1px 0 #b7950b; }
+        .btn-main { background: #238636; color: white; border: none; padding: 16px; width: 100%; border-radius: 12px; font-weight: bold; font-size: 18px; margin-top: 10px; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <div class="g-logo">G</div>
-        
+        <div class="g-logo" onclick="openGoals()">G</div>
         <div class="timer-display" id="headerAmo">Amo 00</div>
-        
         <div class="user-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="#ecf0f1"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+        </div>
+    </div>
+
+    <div id="goalModal">
+        <div class="modal-content">
+            <h3>अपना लक्ष्य (Goal) चुनें</h3>
+            <div class="goal-item" onclick="setGoalType('iPhone 15 Pro')">📱 iPhone 15 Pro</div>
+            <div class="goal-item" onclick="setGoalType('नया घर (Home)')">🏠 नया घर (Home)</div>
+            <div class="goal-item" onclick="setGoalType('Loan चुकाना')">💰 Loan चुकाना</div>
+            <div class="goal-item" onclick="setGoalType('Mobile Recharge')">⚡ Recharge</div>
+            <div class="goal-item" onclick="setGoalType('नयी Bike')">🏍️ नयी Bike</div>
+            <button class="btn-main" onclick="closeGoals()" style="background:#e74c3c">बंद करें</button>
         </div>
     </div>
 
     <div class="goal-settings">
-        <label>आप किस लिए पैसे जमा कर रहे हैं?</label>
-        <select id="dream">
-            <option value="नयी Bike">नयी Bike (बाइक)</option>
-            <option value="अपना House">अपना House (घर)</option>
-            <option value="iPhone 15">iPhone 15 Pro</option>
-            <option value="नयी Car">नयी Car (कार)</option>
-            <option value="Gaming Laptop">Gaming Laptop</option>
-            <option value="Business">अपना नया Business</option>
-            <option value="Gold">सोना (Gold)</option>
-            <option value="World Tour">विदेश यात्रा (World Tour)</option>
-            <option value="Education">पढ़ाई (Education)</option>
-            <option value="Family Gift">Family के लिए Gift</option>
+        <label id="selectedGoalText">लक्ष्य: कोई नहीं</label>
+        <select id="months">
+            <option value="1">1 महीना</option>
+            <option value="2">2 महीने</option>
+            <option value="3">3 महीने</option>
+            <option value="6">6 महीने</option>
+            <option value="12">12 महीने (1 साल)</option>
         </select>
-        <input type="number" id="target" placeholder="लक्ष्य राशि (जैसे 50000)">
-        <button class="btn-main" onclick="startSaving()">लक्ष्य सेट करें</button>
+        <input type="number" id="target" placeholder="लक्ष्य राशि डालें">
+        <button class="btn-main" onclick="startApp()">Start Saving</button>
     </div>
 
     <div class="progress-box">
-        <div class="payout-label">
-            <span>प्रगति (Progress)</span>
-            <span id="payout-text">Payout: 0%</span>
-        </div>
+        <span>Payout: <span id="payout-text">0%</span></span>
         <div class="payout-bar"><div id="fill"></div></div>
     </div>
 
     <div class="gullak-area">
-        <img src="https://i.ibb.co/GvX8hY7/piggy-bank.png" class="gullak-img" alt="Gullak">
+        <img src="https://i.ibb.co/GvX8hY7/piggy-bank.png" class="gullak-img">
     </div>
 
-    <div class="main-balance" id="bal">₹ 0</div>
-    <button class="btn-main btn-add" onclick="add(10)">+ ₹10 गुल्लक में डालें</button>
+    <h1 id="bal">₹ 0</h1>
+    <button class="btn-main" style="background:var(--primary); color:black;" onclick="add(100)">+ ₹100 जमा करें</button>
 
     <script>
         let current = 0;
-        let goal = 0;
+        let goalAmount = 0;
 
-        function startSaving() {
-            let targetInput = document.getElementById('target').value;
-            let selectedDream = document.getElementById('dream').value;
-            
-            if(!targetInput || targetInput <= 0) {
-                alert("कृपया लक्ष्य राशि डालें!");
-                return;
-            }
-            
-            goal = parseFloat(targetInput);
-            alert(selectedDream + " के लिए आपका लक्ष्य सेट हो गया है!");
+        function openGoals() { document.getElementById('goalModal').style.display = 'flex'; }
+        function closeGoals() { document.getElementById('goalModal').style.display = 'none'; }
+        
+        function setGoalType(name) {
+            document.getElementById('selectedGoalText').innerText = "लक्ष्य: " + name;
+            closeGoals();
+        }
+
+        function startApp() {
+            goalAmount = document.getElementById('target').value;
+            if(!goalAmount) return alert("राशि डालें!");
+            alert("लक्ष्य सेट हो गया!");
             update();
         }
 
@@ -107,18 +105,12 @@
         }
 
         function update() {
-            // Update Main Center Balance
             document.getElementById('bal').innerText = "₹ " + current;
-            
-            // Update Top Header Amo Display
             document.getElementById('headerAmo').innerText = "Amo " + current;
-
-            // Update Progress Bar (Payout)
-            if(goal > 0) {
-                let p = Math.floor((current/goal)*100);
-                if(p > 100) p = 100;
-                document.getElementById('fill').style.width = p + "%";
-                document.getElementById('payout-text').innerText = "Payout: " + p + "%";
+            if(goalAmount > 0) {
+                let p = Math.floor((current/goalAmount)*100);
+                document.getElementById('fill').style.width = (p > 100 ? 100 : p) + "%";
+                document.getElementById('payout-text').innerText = p + "%";
             }
         }
     </script>
