@@ -1,31 +1,95 @@
+
 <!DOCTYPE html>
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>डिजिटल गुल्लक</title>
+    <title>Digital Gullak Pro</title>
     <style>
-        body { background-color: #0f0f1e; color: white; font-family: sans-serif; text-align: center; padding: 20px; }
-        .card { background: #1e1e3f; padding: 30px; border-radius: 20px; border: 1px solid #00d2ff; margin-top: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
-        .amount { font-size: 45px; font-weight: bold; color: #00d2ff; margin: 20px 0; }
-        button { background: #673ab7; color: white; border: none; padding: 18px; border-radius: 12px; font-size: 18px; width: 100%; margin-top: 10px; font-weight: bold; cursor: pointer; }
+        :root { --primary: #f1c40f; --bg: #0d1117; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; margin: 0; padding: 15px; text-align: center; }
+        
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        /* Left: Google Icon */
+        .g-logo { width: 45px; height: 45px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #4285F4; font-size: 24px; }
+        /* Right: Red Fort (Lal Qila) Icon placeholder */
+        .fort-img { width: 45px; height: 45px; border-radius: 8px; background: #8e44ad; overflow: hidden; border: 2px solid var(--primary); }
+
+        .timer-display { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 10px; border: 1px solid var(--primary); font-size: 20px; flex-grow: 1; margin: 0 10px; }
+
+        .goal-settings { background: #161b22; padding: 20px; border-radius: 15px; border: 1px solid #30363d; margin-bottom: 20px; }
+        .input-row { display: flex; gap: 10px; margin-bottom: 10px; }
+        input, select { flex: 1; padding: 12px; border-radius: 8px; border: 1px solid #30363d; background: #0d1117; color: white; }
+
+        .progress-container { display: flex; justify-content: space-between; align-items: center; margin: 15px 0; }
+        .payout-bar { background: #30363d; height: 12px; border-radius: 10px; flex-grow: 1; margin-right: 15px; overflow: hidden; }
+        #fill { background: #238636; height: 100%; width: 0%; transition: 0.4s; }
+
+        .gullak-area { position: relative; margin: 30px 0; }
+        .gullak-img { width: 220px; filter: drop-shadow(0 0 10px rgba(241, 196, 15, 0.3)); }
+        
+        .btn-main { background: #238636; color: white; border: none; padding: 15px; width: 100%; border-radius: 10px; font-weight: bold; font-size: 18px; cursor: pointer; }
     </style>
 </head>
 <body>
-    <h2 style="margin-top:20px;">नमस्ते नीलेश राज!</h2>
-    <div class="card">
-        <p style="opacity:0.8;">कुल बचत राशि</p>
-        <div class="amount">₹<span id="bal">0.00</span></div>
-        <button onclick="add(10)">+ ₹10 जमा करें</button>
-        <button style="background:#22c55e" onclick="add(500)">+ ₹500 जमा करें</button>
-        <button style="background:#e91e63" onclick="alert('निकासी जल्द शुरू होगी')">पैसे निकालें</button>
+
+    <div class="header">
+        <div class="g-logo">G</div>
+        <div class="timer-display" id="timer">Amo XXXXX</div>
+        <div class="fort-img">
+            <img src="https://cdn-icons-png.flaticon.com/512/10410/10410065.png" width="100%" alt="Red Fort">
+        </div>
     </div>
-    <p style="margin-top:30px; font-size:12px; color:#888;">यह आपका सुरक्षित डिजिटल वॉलेट है।</p>
+
+    <div class="goal-settings">
+        <div class="input-row">
+            <input type="number" id="target" placeholder="रुपये डालें">
+            <select id="time">
+                <option value="1">1 महीना</option>
+                <option value="6">6 महीने</option>
+                <option value="12">1 साल</option>
+            </select>
+        </div>
+        <button class="btn-main" onclick="startSaving()">Start Saving</button>
+    </div>
+
+    <div class="progress-container">
+        <div class="payout-bar"><div id="fill"></div></div>
+        <div id="payout-text">Payout: 0%</div>
+    </div>
+
+    <div class="gullak-area">
+        <img src="https://i.ibb.co/GvX8hY7/piggy-bank.png" class="gullak-img">
+    </div>
+
+    <h1 id="bal">₹ 0</h1>
+    <button class="btn-main" style="background:#f1c40f; color:black;" onclick="add(10)">+ ₹10 जमा करें</button>
+
     <script>
-        let b = parseFloat(localStorage.getItem('m')) || 0;
-        function update() { document.getElementById('bal').innerText = b.toFixed(2); localStorage.setItem('m', b); }
-        function add(v) { b += v; update(); alert('सफलतापूर्वक ₹' + v + ' जमा हो गए!'); }
-        window.onload = update;
+        let current = 0;
+        let goal = 0;
+
+        function startSaving() {
+            goal = document.getElementById('target').value;
+            let time = document.getElementById('time').value;
+            if(!goal) return alert("लक्ष्य डालें!");
+            document.getElementById('timer').innerText = time + " Months left";
+            update();
+        }
+
+        function add(n) {
+            current += n;
+            update();
+        }
+
+        function update() {
+            document.getElementById('bal').innerText = "₹ " + current;
+            if(goal > 0) {
+                let p = Math.round((current/goal)*100);
+                document.getElementById('fill').style.width = (p > 100 ? 100 : p) + "%";
+                document.getElementById('payout-text').innerText = "Payout: " + p + "%";
+            }
+        }
     </script>
 </body>
 </html>
