@@ -1,207 +1,117 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gemini-Style UI</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Mind Reader AI</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            background-color: #f0f4f9;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: #f8fafd; display: flex; flex-direction: column; height: 100vh; }
 
-        /* Top Header Section */
+        /* Header Section */
         header {
+            padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px;
-            background-color: white;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
         }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .menu-icon {
-            cursor: pointer;
-            color: #5f6368;
-        }
-
-        .logo {
-            font-size: 22px;
-            font-weight: 500;
-            color: #1a73e8;
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        /* Email set karne ka button */
-        .email-btn {
-            background-color: #1a73e8;
+        .logo { font-size: 22px; font-weight: bold; color: #1a73e8; }
+        
+        /* Google Profile Icon Button */
+        .g-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #4285F4;
             color: white;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            font-weight: bold;
             cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.3s;
+            border: none;
         }
 
-        .email-btn:hover {
-            background-color: #1557b0;
-        }
-
-        /* Main Content Section */
-        main {
-            flex-grow: 1;
+        /* Hero Section */
+        .main-content {
+            flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: flex-start;
-            padding: 20px 40px;
+            padding: 40px;
         }
+        .welcome-text { color: #5f6368; font-size: 1.2rem; }
+        .hero-title { font-size: 2.5rem; color: #202124; margin-top: 10px; line-height: 1.2; }
 
-        .greeting {
-            font-size: 24px;
-            color: #5f6368;
-            margin-bottom: 5px;
+        /* Bottom Input Bar */
+        .input-container {
+            padding: 20px;
+            background: white;
         }
-
-        .question {
-            font-size: 40px;
-            color: #1a1b1f;
-            margin-top: 0;
-            margin-bottom: 30px;
-        }
-
-        /* Bottom Input Section */
-        footer {
-            padding: 10px;
-            background-color: transparent;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-        }
-
-        .input-area {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background-color: white;
-            padding: 8px 15px;
-            border-radius: 28px;
-            width: 80%;
-            max-width: 800px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        .input-actions-left {
+        .input-bar {
+            background: #f1f3f4;
+            border-radius: 30px;
+            padding: 12px 20px;
             display: flex;
             align-items: center;
             gap: 15px;
         }
-
-        .action-icon {
-            cursor: pointer;
-            color: #5f6368;
-            font-size: 24px;
-        }
-
-        input[type="text"] {
+        .plus-btn {
+            background: none;
             border: none;
+            font-size: 24px;
+            color: #5f6368;
+            cursor: pointer;
+        }
+        input[type="text"] {
+            flex: 1;
+            border: none;
+            background: none;
             outline: none;
-            flex-grow: 1;
-            padding: 10px;
             font-size: 16px;
         }
-
-        input::placeholder {
-            color: #a8b0ba;
-        }
-
-        .input-actions-right {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .speed-badge {
-            color: #5f6368;
-            font-size: 12px;
-            border: 1px solid #dcdcdc;
-            padding: 5px 10px;
-            border-radius: 15px;
-        }
-
-        .sparkle-icon {
-            background-color: #e0eafb;
-            color: #1a73e8;
-            border-radius: 50%;
-            padding: 8px;
-            font-size: 20px;
-        }
-
+        /* Hidden File Input */
+        #file-input { display: none; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="header-left">
-            <span class="material-icons menu-icon">menu</span>
-            <div class="logo">Gemini</div>
-        </div>
-        <div class="header-right">
-            <span class="material-icons action-icon">chat_bubble_outline</span>
-            <button class="email-btn" onclick="updateEmail()">Update Email</button>
-        </div>
+        <div class="logo">Mind Reader</div>
+        <button class="g-icon" onclick="showEmails()">G</button>
     </header>
 
-    <main>
-        <div class="greeting">Hi Nilesh</div>
-        <h1 class="question">Where should we start?</h1>
-        </main>
+    <div class="main-content">
+        <p class="welcome-text">Hi <span id="user-name">User</span></p>
+        <h1 class="hero-title">Where should we <br> start?</h1>
+    </div>
 
-    <footer>
-        <div class="input-area">
-            <div class="input-actions-left">
-                <span class="material-icons action-icon">add_circle_outline</span>
-                <span class="material-icons action-icon">tune</span>
-            </div>
+    <div class="input-container">
+        <div class="input-bar">
+            <label for="file-input" class="plus-btn">+</label>
+            <input type="file" id="file-input" accept="image/*" multiple>
             
-            <input type="text" placeholder="Ask Gemini">
-            
-            <div class="input-actions-right">
-                <span class="speed-badge">Fast</span>
-                <span class="material-icons action-icon">mic</span>
-                <span class="material-icons sparkle-icon">auto_awesome</span>
-            </div>
+            <input type="text" placeholder="Ghhj">
         </div>
-    </footer>
+    </div>
 
     <script>
-        // Email update karne ka function
-        function updateEmail() {
-            let newEmail = prompt("Please enter the new email address:");
-            if (newEmail != null && newEmail != "") {
-                alert("Email updated to: " + newEmail + ". (Note: This is a demo; no actual email was changed.)");
-                // Yahaan aap real code likh sakte hain jisse email server par update ho.
+        // गैलरी ओपन होने पर अलर्ट (सिर्फ डेमो के लिए)
+        document.getElementById('file-input').onchange = function() {
+            alert(this.files.length + " फोटो सिलेक्ट की गईं!");
+        };
+
+        // G आइकॉन पर क्लिक करने का फंक्शन
+        function showEmails() {
+            // यहाँ आप भविष्य में Google Login API जोड़ सकते हैं
+            let name = prompt("आपका नाम क्या है?");
+            if(name) {
+                document.getElementById('user-name').innerText = name;
             }
+            alert("यहाँ मोबाइल के ईमेल शो करने का फंक्शन आएगा।");
         }
     </script>
 
