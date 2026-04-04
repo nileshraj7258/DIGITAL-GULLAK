@@ -2,203 +2,141 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sabse Sasta | असली मोबाइल व्यू</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account | Sabse Sasta</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* मोबाइल फिटिंग के लिए जरूरी सेटिंग्स */
         * { box-sizing: border-box; font-family: 'Poppins', sans-serif; margin: 0; padding: 0; }
+        body { background: #f4f4f4; color: #333; }
+
+        /* Account Page Container */
+        .account-container {
+            max-width: 400px; margin: auto; background: #fff; min-height: 100vh;
+            display: flex; flex-direction: column; padding: 20px;
+        }
+
+        /* Profile Header */
+        .profile-header {
+            text-align: center; margin-bottom: 30px; padding-top: 20px;
+        }
+        .user-icon {
+            font-size: 80px; color: #ddd; background: #f9f9f9;
+            border-radius: 50%; width: 120px; height: 120px;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 15px; border: 2px solid #eee;
+        }
+
+        /* Menu List */
+        .menu-list { list-style: none; }
         
-        body { 
-            background: #ffffff; 
-            display: flex; 
-            flex-direction: column; 
-            height: 100vh; 
-            overflow: hidden; 
+        .menu-item {
+            padding: 15px; margin-bottom: 10px; border-radius: 12px;
+            display: flex; align-items: center; cursor: pointer;
+            transition: 0.3s; font-weight: 600; font-size: 16px;
         }
 
-        /* Header Section */
-        .header {
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #fff;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        .logo-area h1 { font-size: 22px; color: #ff9800; font-weight: 700; }
-        .logo-area span { font-size: 11px; color: #777; display: block; margin-top: -2px; }
-        
-        /* Google Login Icon */
-        .google-login-btn {
-            width: 38px; height: 38px; background: #fff; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            border: 1px solid #ddd; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .google-login-btn img { width: 18px; }
+        /* Dark Buttons (Create & Logout) */
+        .btn-dark { background: #333; color: #fff; }
+        .btn-dark:hover { background: #000; }
 
-        /* Location Bar with Switch */
-        .location-bar {
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #fafafa;
-            font-size: 14px;
-        }
-        .loc-label { display: flex; align-items: center; font-weight: 500; color: #333; }
-        .loc-label i { color: #4caf50; margin-right: 8px; }
-        
-        /* ON/OFF Switch */
-        .switch { position: relative; display: inline-block; width: 40px; height: 22px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider {
-            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #ccc; transition: .4s; border-radius: 34px;
-        }
-        .slider:before {
-            position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px;
-            background-color: white; transition: .4s; border-radius: 50%;
-        }
-        input:checked + .slider { background-color: #4caf50; }
-        input:checked + .slider:before { transform: translateX(18px); }
-
-        /* Search Bar */
-        .search-container { padding: 15px 20px; }
-        .search-bar {
-            background: #f1f3f4; border-radius: 12px; padding: 12px 15px;
-            display: flex; align-items: center;
-        }
-        .search-bar input {
-            border: none; background: transparent; outline: none; flex: 1; font-size: 15px; margin-left: 10px;
-        }
-        .filter-icon { color: #ff9800; font-size: 18px; }
-
-        /* Main Scrollable Content */
-        .main-content {
-            flex: 1;
-            overflow-y: auto;
-            padding-bottom: 80px; /* नेविगेशन के लिए जगह */
+        /* Blur/Disabled State for other buttons */
+        .btn-blur {
+            background: #f0f0f0; color: #999;
+            filter: blur(1px); /* धुंधलापन */
+            pointer-events: none; /* क्लिक नहीं होगा */
+            opacity: 0.7;
         }
 
-        /* Categories */
-        .categories {
-            display: flex; gap: 12px; overflow-x: auto; padding: 5px 20px 15px;
-            scrollbar-width: none; /* Hide scrollbar for Firefox */
-        }
-        .categories::-webkit-scrollbar { display: none; } /* Hide for Chrome */
-        
-        .cat-item {
-            flex: 0 0 80px; text-align: center; background: #fff;
-            padding: 10px; border-radius: 12px; border: 1px solid #eee;
-        }
-        .cat-item i { font-size: 24px; color: #ff9800; margin-bottom: 5px; display: block; }
-        .cat-item span { font-size: 10px; font-weight: 600; color: #555; }
+        /* Icons */
+        .menu-item i { margin-right: 15px; font-size: 20px; width: 25px; text-align: center; }
 
-        /* Product Cards */
-        .deals-section { padding: 10px 20px; }
-        .deals-header { font-size: 18px; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; }
-        .deals-header::after { content: ''; height: 8px; width: 8px; background: #ff5722; border-radius: 50%; margin-left: 8px; }
-
-        .product-list { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .p-card {
-            background: #fff; border-radius: 15px; border: 1px solid #eee; overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        /* Create Account Form (Hidden by default) */
+        #store-form {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); z-index: 100; justify-content: center; align-items: center;
         }
-        .p-img { width: 100%; height: 100px; background: #eee; object-fit: cover; }
-        .p-info { padding: 10px; }
-        .p-info h3 { font-size: 14px; margin-bottom: 4px; color: #333; }
-        .p-price { font-size: 16px; font-weight: 700; color: #e91e63; }
-        .p-shop { font-size: 11px; color: #666; margin-top: 4px; }
-
-        /* Bottom Navigation (Fixed at bottom) */
-        .bottom-nav {
-            position: fixed; bottom: 0; width: 100%; background: #fff;
-            display: flex; justify-content: space-around; padding: 10px 0;
-            border-top: 1px solid #eee; box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+        .form-box {
+            background: #fff; padding: 30px; border-radius: 20px; width: 90%; max-width: 350px;
         }
-        .nav-item { text-align: center; text-decoration: none; flex: 1; }
-        .nav-item i { font-size: 20px; display: block; margin-bottom: 2px; }
-        .nav-item span { font-size: 10px; font-weight: 700; }
-        
-        .n-home { color: #4caf50; }
-        .n-map { color: #2196f3; }
-        .n-user { color: #f44336; }
+        .form-box h3 { margin-bottom: 20px; color: #ff9800; }
+        .form-box input {
+            width: 100%; padding: 12px; margin-bottom: 15px;
+            border: 1px solid #ddd; border-radius: 8px;
+        }
+        .btn-submit { background: #4caf50; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; }
+
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <div class="logo-area">
-            <h1>Sabse Sasta</h1>
-            <span>पास में सबसे सस्ता कहाँ?</span>
-        </div>
-        <div class="google-login-btn">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="G">
-        </div>
-    </div>
-
-    <div class="location-bar">
-        <div class="loc-label"><i class="fas fa-map-marker-alt"></i> Your Location</div>
-        <label class="switch">
-            <input type="checkbox" id="locToggle">
-            <span class="slider"></span>
-        </label>
-    </div>
-
-    <div class="main-content">
-        <div class="search-container">
-            <div class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="सस्ता सामान खोजें...">
-                <i class="fas fa-sliders-h filter-icon"></i>
+    <div class="account-container">
+        <div class="profile-header">
+            <div class="user-icon">
+                <i class="fas fa-user"></i>
             </div>
         </div>
 
-        <div class="categories">
-            <div class="cat-item"><i class="fas fa-cookie"></i><span>Sweets</span></div>
-            <div class="cat-item"><i class="fas fa-shopping-basket"></i><span>Grocery</span></div>
-            <div class="cat-item"><i class="fas fa-blender"></i><span>Dairy</span></div>
-            <div class="cat-item"><i class="fas fa-mobile-alt"></i><span>Mobile</span></div>
-        </div>
+        <div class="menu-list">
+            <div class="menu-item btn-dark" onclick="openStoreForm()">
+                <i class="fas fa-plus-circle"></i> Create Account
+            </div>
 
-        <div class="deals-section">
-            <div class="deals-header">Best Deals Near You</div>
-            <div class="product-list">
-                <div class="p-card">
-                    <img src="https://via.placeholder.com/150x100?text=Gulab+Jamun" class="p-img">
-                    <div class="p-info">
-                        <h3>Gulab Jamun</h3>
-                        <div class="p-price">₹220/kg</div>
-                        <div class="p-shop">Gupta Sweets (300m)</div>
-                    </div>
-                </div>
-                <div class="p-card">
-                    <img src="https://via.placeholder.com/150x100?text=Basmati+Rice" class="p-img">
-                    <div class="p-info">
-                        <h3>Basmati Rice</h3>
-                        <div class="p-price">₹55/kg</div>
-                        <div class="p-shop">Ashree Mart (250m)</div>
-                    </div>
-                </div>
+            <div class="menu-item btn-blur locked">
+                <i class="fas fa-exchange-alt"></i> Switch Account
+            </div>
+
+            <div class="menu-item btn-blur locked">
+                <i class="fas fa-cart-plus"></i> Add Product
+            </div>
+
+            <div class="menu-item btn-blur locked">
+                <i class="fas fa-info-circle"></i> Details
+            </div>
+
+            <div class="menu-item btn-dark" style="margin-top: 30px;">
+                <i class="fas fa-sign-out-alt"></i> Logout
             </div>
         </div>
     </div>
 
-    <div class="bottom-nav">
-        <a href="#" class="nav-item n-home">
-            <i class="fas fa-home"></i>
-            <span>HOME</span>
-        </a>
-        <a href="#" class="nav-item n-map">
-            <i class="fas fa-map-marked-alt"></i>
-            <span>VIEW ON MAP</span>
-        </a>
-        <a href="#" class="nav-item n-user">
-            <i class="fas fa-user-circle"></i>
-            <span>MY ACCOUNT</span>
-        </a>
+    <div id="store-form">
+        <div class="form-box">
+            <h3>दुकान की जानकारी</h3>
+            <input type="text" id="storeName" placeholder="Store का नाम लिखें...">
+            <input type="text" placeholder="शहर / इलाका">
+            <button class="btn-submit" onclick="activateAccount()">अकाउंट बनाएँ</button>
+        </div>
     </div>
+
+    <script>
+        // Form खोलने के लिए
+        function openStoreForm() {
+            document.getElementById('store-form').style.display = 'flex';
+        }
+
+        // अकाउंट एक्टिवेट करने के बाद सब डार्क हो जाएगा
+        function activateAccount() {
+            const storeName = document.getElementById('storeName').value;
+            if (storeName === "") {
+                alert("कृपया दुकान का नाम डालें!");
+                return;
+            }
+
+            // Blur हटाना और सबको डार्क करना
+            const lockedItems = document.querySelectorAll('.locked');
+            lockedItems.forEach(item => {
+                item.classList.remove('btn-blur');
+                item.classList.add('btn-dark'); // सब डार्क हो गए
+                item.style.filter = 'none';
+                item.style.pointerEvents = 'auto';
+                item.style.opacity = '1';
+            });
+
+            // फॉर्म बंद करें
+            document.getElementById('store-form').style.display = 'none';
+            alert(storeName + " का अकाउंट तैयार है!");
+        }
+    </script>
 
 </body>
 </html>
