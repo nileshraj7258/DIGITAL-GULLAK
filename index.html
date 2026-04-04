@@ -3,117 +3,234 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mind Reader AI</title>
+    <title>Sabse Sasta | पाास में सबसे सस्ता कहाँ?</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background-color: #f8fafd; display: flex; flex-direction: column; height: 100vh; }
-
-        /* Header Section */
-        header {
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: white;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        .logo { font-size: 22px; font-weight: bold; color: #1a73e8; }
+        * { box-sizing: border-box; font-family: 'Poppins', sans-serif; margin: 0; padding: 0; }
+        body { background: #f0f0f0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
         
-        /* Google Profile Icon Button */
-        .g-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #4285F4;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            border: none;
+        /* Mobile Frame Styling */
+        .mobile-frame {
+            width: 360px; height: 740px; background: #fff; border: 12px solid #333;
+            border-radius: 36px; box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            overflow: hidden; position: relative; display: flex; flex-direction: column;
         }
 
-        /* Hero Section */
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 40px;
+        /* Header (Logo & Login) */
+        .header {
+            padding: 15px 20px 5px 20px; display: flex; justify-content: space-between; align-items: center;
+            background: #fff; z-index: 10;
         }
-        .welcome-text { color: #5f6368; font-size: 1.2rem; }
-        .hero-title { font-size: 2.5rem; color: #202124; margin-top: 10px; line-height: 1.2; }
+        .logo-area h1 { font-size: 24px; color: #ff9800; font-weight: 700; letter-spacing: -1px; }
+        .logo-area span { font-size: 10px; color: #555; display: block; margin-top: -3px; }
+        
+        /* New Google Login Button */
+        .google-login-btn {
+            width: 40px; height: 40px; background: #f0f0f0; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            border: 2px solid #ddd; cursor: pointer; transition: 0.2s;
+        }
+        .google-login-btn:hover { background: #e0e0e0; transform: scale(1.05); }
+        .google-login-btn img { width: 20px; }
 
-        /* Bottom Input Bar */
-        .input-container {
-            padding: 20px;
-            background: white;
+        /* Location Bar with ON/OFF Switch */
+        .location-bar {
+            padding: 5px 20px; display: flex; justify-content: space-between; align-items: center;
+            background: #fff; border-bottom: 1px solid #eee; font-size: 13px; color: #555;
         }
-        .input-bar {
-            background: #f1f3f4;
-            border-radius: 30px;
-            padding: 12px 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
+        .loc-label { display: flex; align-items: center; color: #444; }
+        .loc-label i { color: #4caf50; margin-right: 6px; }
+        
+        /* New ON/OFF Switch */
+        .switch {
+            position: relative; display: inline-block; width: 34px; height: 20px;
         }
-        .plus-btn {
-            background: none;
-            border: none;
-            font-size: 24px;
-            color: #5f6368;
-            cursor: pointer;
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #ccc; transition: .4s; border-radius: 20px;
         }
-        input[type="text"] {
-            flex: 1;
-            border: none;
-            background: none;
-            outline: none;
-            font-size: 16px;
+        .slider:before {
+            position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px;
+            background-color: white; transition: .4s; border-radius: 50%;
         }
-        /* Hidden File Input */
-        #file-input { display: none; }
+        input:checked + .slider { background-color: #4caf50; }
+        input:checked + .slider:before { transform: translateX(14px); }
+
+        /* Search Bar */
+        .search-container { padding: 15px 20px; background: #fff; }
+        .search-bar {
+            background: #f5f5f5; border-radius: 20px; padding: 10px 15px;
+            display: flex; align-items: center; border: 1px solid #eee;
+        }
+        .search-bar i { color: #888; margin-right: 10px; font-size: 16px; }
+        .search-bar input {
+            border: none; background: transparent; outline: none; flex: 1; font-size: 14px; color: #333;
+        }
+        .filter-icon { color: #ff9800; font-size: 18px; margin-left: 10px; cursor: pointer; }
+
+        /* Categories Section */
+        .categories {
+            padding: 10px 20px; background: #fff; display: flex; gap: 10px; overflow-x: auto;
+            -webkit-overflow-scrolling: touch; border-bottom: 1px solid #eee;
+        }
+        .category-card {
+            flex: 0 0 75px; background: #fff; border-radius: 12px; padding: 10px 5px; text-align: center;
+            border: 1px solid #eee; cursor: pointer; transition: 0.2s;
+        }
+        .category-card:hover { border-color: #ff9800; transform: translateY(-2px); }
+        .category-card img { width: 35px; height: 35px; object-fit: contain; margin-bottom: 5px; }
+        .category-card span { font-size: 10px; color: #444; font-weight: 500; display: block; line-height: 1.2; }
+
+        /* Product Grid (Main Content) */
+        .product-grid {
+            flex: 1; padding: 20px; overflow-y: auto; background: #fafafa;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 15px;
+        }
+        .product-grid-title { grid-column: 1 / -1; font-size: 16px; font-weight: 600; color: #333; margin-bottom: 5px; display: flex; align-items: center; justify-content: space-between; }
+        .deals-dot { width: 8px; height: 8px; background: #ff5722; border-radius: 50%; margin-left: 8px; }
+
+        .product-card {
+            background: #fff; border-radius: 12px; padding: 10px; border: 1px solid #eee;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03); display: flex; flex-direction: column; transition: 0.2s;
+        }
+        .product-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
+        .product-image {
+            width: 100%; height: 80px; object-fit: cover; border-radius: 8px; margin-bottom: 8px;
+        }
+        .product-details h3 { font-size: 13px; font-weight: 600; color: #333; margin-bottom: 3px; }
+        .product-price { font-size: 16px; font-weight: 700; color: #ff5722; margin-bottom: 5px; }
+        .product-meta { font-size: 11px; color: #777; margin-bottom: 2px; display: flex; align-items: center; }
+        .product-meta i { margin-right: 4px; font-size: 10px; }
+        .update-time { font-size: 10px; color: #aaa; margin-top: auto; }
+
+        /* New Bottom Navigation (Home, Map, My Account) */
+        .bottom-nav {
+            padding: 10px 20px; background: #fff; border-top: 1px solid #eee;
+            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; z-index: 10;
+        }
+        .nav-btn {
+            border-radius: 10px; padding: 12px; font-size: 11px; font-weight: 600;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: #fff; text-decoration: none; text-align: center; cursor: pointer; transition: 0.2s;
+        }
+        .nav-btn i { font-size: 18px; margin-bottom: 4px; }
+        .nav-btn:hover { opacity: 0.9; transform: scale(1.02); }
+
+        /* Nav Button Colors */
+        .btn-home { background: #4caf50; } /* Green */
+        .btn-map { background: #2196f3; }  /* Blue */
+        .btn-account { background: #f44336; } /* Red */
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo">Mind Reader</div>
-        <button class="g-icon" onclick="showEmails()">G</button>
-    </header>
-
-    <div class="main-content">
-        <p class="welcome-text">Hi <span id="user-name">User</span></p>
-        <h1 class="hero-title">Where should we <br> start?</h1>
-    </div>
-
-    <div class="input-container">
-        <div class="input-bar">
-            <label for="file-input" class="plus-btn">+</label>
-            <input type="file" id="file-input" accept="image/*" multiple>
-            
-            <input type="text" placeholder="Ghhj">
+    <div class="mobile-frame">
+        <div class="header">
+            <div class="logo-area">
+                <h1>Sabse Sasta</h1>
+                <span>पास में सबसे सस्ता कहाँ?</span>
+            </div>
+            <div class="google-login-btn" onclick="alert('Google Login Feature coming soon!')">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google Logo">
+            </div>
         </div>
+
+        <div class="location-bar">
+            <div class="loc-label">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Your Location</span>
+            </div>
+            <label class="switch">
+                <input type="checkbox" id="locationSwitch" onchange="toggleLocation()">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <div class="search-container">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search for Products (e.g. Milk, Sweets, Oil...">
+                <i class="fas fa-sliders-h filter-icon"></i>
+            </div>
+        </div>
+
+        <div class="categories">
+            <div class="category-card">
+                <img src="https://via.placeholder.com/35x35?text=Sweets" alt="Sweets">
+                <span>Sweets & Snacks</span>
+            </div>
+            <div class="category-card">
+                <img src="https://via.placeholder.com/35x35?text=Groceries" alt="Groceries">
+                <span>Groceries</span>
+            </div>
+            <div class="category-card">
+                <img src="https://via.placeholder.com/35x35?text=Dairy" alt="Dairy">
+                <span>Dairy</span>
+            </div>
+            <div class="category-card">
+                <img src="https://via.placeholder.com/35x35?text=Mobile" alt="Mobile">
+                <span>Mobile Accessories</span>
+            </div>
+        </div>
+
+        <div class="product-grid">
+            <div class="product-grid-title">
+                Best Deals Near You
+                <span class="deals-dot"></span>
+            </div>
+
+            <div class="product-card">
+                <img src="https://via.placeholder.com/150x80?text=Gulab+Jamun" alt="Gulab Jamun" class="product-image">
+                <div class="product-details">
+                    <h3>Gulab Jamun</h3>
+                    <div class="product-price">₹220/kg</div>
+                    <div class="product-meta"><i class="fas fa-store"></i>At Gupta Sweets</div>
+                    <div class="product-meta"><i class="fas fa-map-pin"></i>300m Away</div>
+                    <div class="update-time">Last Updated: 10 mins ago</div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="https://via.placeholder.com/150x80?text=Basmati+Rice" alt="Basmati Rice" class="product-image">
+                <div class="product-details">
+                    <h3>Basmati Rice</h3>
+                    <div class="product-price">₹55/kg</div>
+                    <div class="product-meta"><i class="fas fa-store"></i>AShree Mart</div>
+                    <div class="product-meta"><i class="fas fa-map-pin"></i>250m Away</div>
+                    <div class="update-time">Last Updated: 5 mins ago</div>
+                </div>
+            </div>
+            
+            </div>
+
+        <div class="bottom-nav">
+            <a href="#" class="nav-btn btn-home">
+                <i class="fas fa-home"></i>
+                HOME
+            </a>
+            <a href="#" class="nav-btn btn-map">
+                <i class="fas fa-map-marked-alt"></i>
+                VIEW ON MAP
+            </a>
+            <a href="#" class="nav-btn btn-account">
+                <i class="fas fa-user-circle"></i>
+                MY ACCOUNT
+            </a>
+        </div>
+
     </div>
 
     <script>
-        // गैलरी ओपन होने पर अलर्ट (सिर्फ डेमो के लिए)
-        document.getElementById('file-input').onchange = function() {
-            alert(this.files.length + " फोटो सिलेक्ट की गईं!");
-        };
-
-        // G आइकॉन पर क्लिक करने का फंक्शन
-        function showEmails() {
-            // यहाँ आप भविष्य में Google Login API जोड़ सकते हैं
-            let name = prompt("आपका नाम क्या है?");
-            if(name) {
-                document.getElementById('user-name').innerText = name;
+        // Placeholder function for location toggle
+        function toggleLocation() {
+            const isChecked = document.getElementById('locationSwitch').checked;
+            if (isChecked) {
+                alert('Location ON. Searching near you!');
+            } else {
+                alert('Location OFF. Please enable for best deals.');
             }
-            alert("यहाँ मोबाइल के ईमेल शो करने का फंक्शन आएगा।");
         }
     </script>
-
 </body>
 </html>
