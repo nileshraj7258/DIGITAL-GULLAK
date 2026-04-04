@@ -2,235 +2,203 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sabse Sasta | पाास में सबसे सस्ता कहाँ?</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sabse Sasta | असली मोबाइल व्यू</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* मोबाइल फिटिंग के लिए जरूरी सेटिंग्स */
         * { box-sizing: border-box; font-family: 'Poppins', sans-serif; margin: 0; padding: 0; }
-        body { background: #f0f0f0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
         
-        /* Mobile Frame Styling */
-        .mobile-frame {
-            width: 360px; height: 740px; background: #fff; border: 12px solid #333;
-            border-radius: 36px; box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            overflow: hidden; position: relative; display: flex; flex-direction: column;
+        body { 
+            background: #ffffff; 
+            display: flex; 
+            flex-direction: column; 
+            height: 100vh; 
+            overflow: hidden; 
         }
 
-        /* Header (Logo & Login) */
+        /* Header Section */
         .header {
-            padding: 15px 20px 5px 20px; display: flex; justify-content: space-between; align-items: center;
-            background: #fff; z-index: 10;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            border-bottom: 1px solid #f0f0f0;
         }
-        .logo-area h1 { font-size: 24px; color: #ff9800; font-weight: 700; letter-spacing: -1px; }
-        .logo-area span { font-size: 10px; color: #555; display: block; margin-top: -3px; }
+        .logo-area h1 { font-size: 22px; color: #ff9800; font-weight: 700; }
+        .logo-area span { font-size: 11px; color: #777; display: block; margin-top: -2px; }
         
-        /* New Google Login Button */
+        /* Google Login Icon */
         .google-login-btn {
-            width: 40px; height: 40px; background: #f0f0f0; border-radius: 50%;
+            width: 38px; height: 38px; background: #fff; border-radius: 50%;
             display: flex; justify-content: center; align-items: center;
-            border: 2px solid #ddd; cursor: pointer; transition: 0.2s;
+            border: 1px solid #ddd; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        .google-login-btn:hover { background: #e0e0e0; transform: scale(1.05); }
-        .google-login-btn img { width: 20px; }
+        .google-login-btn img { width: 18px; }
 
-        /* Location Bar with ON/OFF Switch */
+        /* Location Bar with Switch */
         .location-bar {
-            padding: 5px 20px; display: flex; justify-content: space-between; align-items: center;
-            background: #fff; border-bottom: 1px solid #eee; font-size: 13px; color: #555;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fafafa;
+            font-size: 14px;
         }
-        .loc-label { display: flex; align-items: center; color: #444; }
-        .loc-label i { color: #4caf50; margin-right: 6px; }
+        .loc-label { display: flex; align-items: center; font-weight: 500; color: #333; }
+        .loc-label i { color: #4caf50; margin-right: 8px; }
         
-        /* New ON/OFF Switch */
-        .switch {
-            position: relative; display: inline-block; width: 34px; height: 20px;
-        }
+        /* ON/OFF Switch */
+        .switch { position: relative; display: inline-block; width: 40px; height: 22px; }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider {
             position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #ccc; transition: .4s; border-radius: 20px;
+            background-color: #ccc; transition: .4s; border-radius: 34px;
         }
         .slider:before {
-            position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px;
+            position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px;
             background-color: white; transition: .4s; border-radius: 50%;
         }
         input:checked + .slider { background-color: #4caf50; }
-        input:checked + .slider:before { transform: translateX(14px); }
+        input:checked + .slider:before { transform: translateX(18px); }
 
         /* Search Bar */
-        .search-container { padding: 15px 20px; background: #fff; }
+        .search-container { padding: 15px 20px; }
         .search-bar {
-            background: #f5f5f5; border-radius: 20px; padding: 10px 15px;
-            display: flex; align-items: center; border: 1px solid #eee;
+            background: #f1f3f4; border-radius: 12px; padding: 12px 15px;
+            display: flex; align-items: center;
         }
-        .search-bar i { color: #888; margin-right: 10px; font-size: 16px; }
         .search-bar input {
-            border: none; background: transparent; outline: none; flex: 1; font-size: 14px; color: #333;
+            border: none; background: transparent; outline: none; flex: 1; font-size: 15px; margin-left: 10px;
         }
-        .filter-icon { color: #ff9800; font-size: 18px; margin-left: 10px; cursor: pointer; }
+        .filter-icon { color: #ff9800; font-size: 18px; }
 
-        /* Categories Section */
+        /* Main Scrollable Content */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 80px; /* नेविगेशन के लिए जगह */
+        }
+
+        /* Categories */
         .categories {
-            padding: 10px 20px; background: #fff; display: flex; gap: 10px; overflow-x: auto;
-            -webkit-overflow-scrolling: touch; border-bottom: 1px solid #eee;
+            display: flex; gap: 12px; overflow-x: auto; padding: 5px 20px 15px;
+            scrollbar-width: none; /* Hide scrollbar for Firefox */
         }
-        .category-card {
-            flex: 0 0 75px; background: #fff; border-radius: 12px; padding: 10px 5px; text-align: center;
-            border: 1px solid #eee; cursor: pointer; transition: 0.2s;
+        .categories::-webkit-scrollbar { display: none; } /* Hide for Chrome */
+        
+        .cat-item {
+            flex: 0 0 80px; text-align: center; background: #fff;
+            padding: 10px; border-radius: 12px; border: 1px solid #eee;
         }
-        .category-card:hover { border-color: #ff9800; transform: translateY(-2px); }
-        .category-card img { width: 35px; height: 35px; object-fit: contain; margin-bottom: 5px; }
-        .category-card span { font-size: 10px; color: #444; font-weight: 500; display: block; line-height: 1.2; }
+        .cat-item i { font-size: 24px; color: #ff9800; margin-bottom: 5px; display: block; }
+        .cat-item span { font-size: 10px; font-weight: 600; color: #555; }
 
-        /* Product Grid (Main Content) */
-        .product-grid {
-            flex: 1; padding: 20px; overflow-y: auto; background: #fafafa;
-            display: grid; grid-template-columns: 1fr 1fr; gap: 15px;
-        }
-        .product-grid-title { grid-column: 1 / -1; font-size: 16px; font-weight: 600; color: #333; margin-bottom: 5px; display: flex; align-items: center; justify-content: space-between; }
-        .deals-dot { width: 8px; height: 8px; background: #ff5722; border-radius: 50%; margin-left: 8px; }
+        /* Product Cards */
+        .deals-section { padding: 10px 20px; }
+        .deals-header { font-size: 18px; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; }
+        .deals-header::after { content: ''; height: 8px; width: 8px; background: #ff5722; border-radius: 50%; margin-left: 8px; }
 
-        .product-card {
-            background: #fff; border-radius: 12px; padding: 10px; border: 1px solid #eee;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.03); display: flex; flex-direction: column; transition: 0.2s;
+        .product-list { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .p-card {
+            background: #fff; border-radius: 15px; border: 1px solid #eee; overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
-        .product-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
-        .product-image {
-            width: 100%; height: 80px; object-fit: cover; border-radius: 8px; margin-bottom: 8px;
-        }
-        .product-details h3 { font-size: 13px; font-weight: 600; color: #333; margin-bottom: 3px; }
-        .product-price { font-size: 16px; font-weight: 700; color: #ff5722; margin-bottom: 5px; }
-        .product-meta { font-size: 11px; color: #777; margin-bottom: 2px; display: flex; align-items: center; }
-        .product-meta i { margin-right: 4px; font-size: 10px; }
-        .update-time { font-size: 10px; color: #aaa; margin-top: auto; }
+        .p-img { width: 100%; height: 100px; background: #eee; object-fit: cover; }
+        .p-info { padding: 10px; }
+        .p-info h3 { font-size: 14px; margin-bottom: 4px; color: #333; }
+        .p-price { font-size: 16px; font-weight: 700; color: #e91e63; }
+        .p-shop { font-size: 11px; color: #666; margin-top: 4px; }
 
-        /* New Bottom Navigation (Home, Map, My Account) */
+        /* Bottom Navigation (Fixed at bottom) */
         .bottom-nav {
-            padding: 10px 20px; background: #fff; border-top: 1px solid #eee;
-            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; z-index: 10;
+            position: fixed; bottom: 0; width: 100%; background: #fff;
+            display: flex; justify-content: space-around; padding: 10px 0;
+            border-top: 1px solid #eee; box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
         }
-        .nav-btn {
-            border-radius: 10px; padding: 12px; font-size: 11px; font-weight: 600;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            color: #fff; text-decoration: none; text-align: center; cursor: pointer; transition: 0.2s;
-        }
-        .nav-btn i { font-size: 18px; margin-bottom: 4px; }
-        .nav-btn:hover { opacity: 0.9; transform: scale(1.02); }
-
-        /* Nav Button Colors */
-        .btn-home { background: #4caf50; } /* Green */
-        .btn-map { background: #2196f3; }  /* Blue */
-        .btn-account { background: #f44336; } /* Red */
+        .nav-item { text-align: center; text-decoration: none; flex: 1; }
+        .nav-item i { font-size: 20px; display: block; margin-bottom: 2px; }
+        .nav-item span { font-size: 10px; font-weight: 700; }
+        
+        .n-home { color: #4caf50; }
+        .n-map { color: #2196f3; }
+        .n-user { color: #f44336; }
     </style>
 </head>
 <body>
 
-    <div class="mobile-frame">
-        <div class="header">
-            <div class="logo-area">
-                <h1>Sabse Sasta</h1>
-                <span>पास में सबसे सस्ता कहाँ?</span>
-            </div>
-            <div class="google-login-btn" onclick="alert('Google Login Feature coming soon!')">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google Logo">
-            </div>
+    <div class="header">
+        <div class="logo-area">
+            <h1>Sabse Sasta</h1>
+            <span>पास में सबसे सस्ता कहाँ?</span>
         </div>
-
-        <div class="location-bar">
-            <div class="loc-label">
-                <i class="fas fa-map-marker-alt"></i>
-                <span>Your Location</span>
-            </div>
-            <label class="switch">
-                <input type="checkbox" id="locationSwitch" onchange="toggleLocation()">
-                <span class="slider"></span>
-            </label>
+        <div class="google-login-btn">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="G">
         </div>
+    </div>
 
+    <div class="location-bar">
+        <div class="loc-label"><i class="fas fa-map-marker-alt"></i> Your Location</div>
+        <label class="switch">
+            <input type="checkbox" id="locToggle">
+            <span class="slider"></span>
+        </label>
+    </div>
+
+    <div class="main-content">
         <div class="search-container">
             <div class="search-bar">
                 <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search for Products (e.g. Milk, Sweets, Oil...">
+                <input type="text" placeholder="सस्ता सामान खोजें...">
                 <i class="fas fa-sliders-h filter-icon"></i>
             </div>
         </div>
 
         <div class="categories">
-            <div class="category-card">
-                <img src="https://via.placeholder.com/35x35?text=Sweets" alt="Sweets">
-                <span>Sweets & Snacks</span>
-            </div>
-            <div class="category-card">
-                <img src="https://via.placeholder.com/35x35?text=Groceries" alt="Groceries">
-                <span>Groceries</span>
-            </div>
-            <div class="category-card">
-                <img src="https://via.placeholder.com/35x35?text=Dairy" alt="Dairy">
-                <span>Dairy</span>
-            </div>
-            <div class="category-card">
-                <img src="https://via.placeholder.com/35x35?text=Mobile" alt="Mobile">
-                <span>Mobile Accessories</span>
-            </div>
+            <div class="cat-item"><i class="fas fa-cookie"></i><span>Sweets</span></div>
+            <div class="cat-item"><i class="fas fa-shopping-basket"></i><span>Grocery</span></div>
+            <div class="cat-item"><i class="fas fa-blender"></i><span>Dairy</span></div>
+            <div class="cat-item"><i class="fas fa-mobile-alt"></i><span>Mobile</span></div>
         </div>
 
-        <div class="product-grid">
-            <div class="product-grid-title">
-                Best Deals Near You
-                <span class="deals-dot"></span>
-            </div>
-
-            <div class="product-card">
-                <img src="https://via.placeholder.com/150x80?text=Gulab+Jamun" alt="Gulab Jamun" class="product-image">
-                <div class="product-details">
-                    <h3>Gulab Jamun</h3>
-                    <div class="product-price">₹220/kg</div>
-                    <div class="product-meta"><i class="fas fa-store"></i>At Gupta Sweets</div>
-                    <div class="product-meta"><i class="fas fa-map-pin"></i>300m Away</div>
-                    <div class="update-time">Last Updated: 10 mins ago</div>
+        <div class="deals-section">
+            <div class="deals-header">Best Deals Near You</div>
+            <div class="product-list">
+                <div class="p-card">
+                    <img src="https://via.placeholder.com/150x100?text=Gulab+Jamun" class="p-img">
+                    <div class="p-info">
+                        <h3>Gulab Jamun</h3>
+                        <div class="p-price">₹220/kg</div>
+                        <div class="p-shop">Gupta Sweets (300m)</div>
+                    </div>
+                </div>
+                <div class="p-card">
+                    <img src="https://via.placeholder.com/150x100?text=Basmati+Rice" class="p-img">
+                    <div class="p-info">
+                        <h3>Basmati Rice</h3>
+                        <div class="p-price">₹55/kg</div>
+                        <div class="p-shop">Ashree Mart (250m)</div>
+                    </div>
                 </div>
             </div>
-
-            <div class="product-card">
-                <img src="https://via.placeholder.com/150x80?text=Basmati+Rice" alt="Basmati Rice" class="product-image">
-                <div class="product-details">
-                    <h3>Basmati Rice</h3>
-                    <div class="product-price">₹55/kg</div>
-                    <div class="product-meta"><i class="fas fa-store"></i>AShree Mart</div>
-                    <div class="product-meta"><i class="fas fa-map-pin"></i>250m Away</div>
-                    <div class="update-time">Last Updated: 5 mins ago</div>
-                </div>
-            </div>
-            
-            </div>
-
-        <div class="bottom-nav">
-            <a href="#" class="nav-btn btn-home">
-                <i class="fas fa-home"></i>
-                HOME
-            </a>
-            <a href="#" class="nav-btn btn-map">
-                <i class="fas fa-map-marked-alt"></i>
-                VIEW ON MAP
-            </a>
-            <a href="#" class="nav-btn btn-account">
-                <i class="fas fa-user-circle"></i>
-                MY ACCOUNT
-            </a>
         </div>
-
     </div>
 
-    <script>
-        // Placeholder function for location toggle
-        function toggleLocation() {
-            const isChecked = document.getElementById('locationSwitch').checked;
-            if (isChecked) {
-                alert('Location ON. Searching near you!');
-            } else {
-                alert('Location OFF. Please enable for best deals.');
-            }
-        }
-    </script>
+    <div class="bottom-nav">
+        <a href="#" class="nav-item n-home">
+            <i class="fas fa-home"></i>
+            <span>HOME</span>
+        </a>
+        <a href="#" class="nav-item n-map">
+            <i class="fas fa-map-marked-alt"></i>
+            <span>VIEW ON MAP</span>
+        </a>
+        <a href="#" class="nav-item n-user">
+            <i class="fas fa-user-circle"></i>
+            <span>MY ACCOUNT</span>
+        </a>
+    </div>
+
 </body>
 </html>
