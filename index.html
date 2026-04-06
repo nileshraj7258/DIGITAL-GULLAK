@@ -181,9 +181,34 @@
         }
 
         function addNewProduct() {
-            const html = `<div class="product-input-card">
-                            <div class="camera-box"><i class="fas fa-camera"></i><span>Photo चुनें</span></div>
-                            <input type="text" placeholder="product category">
+            const html = `// यह वह नया ढांचा (Structure) है जो हर बार '+' दबाने पर बनेगा
+const productHTML = `
+<div class="product-input-card" style="background: #fff; padding: 15px; border-radius: 12px; border: 1px solid #ddd; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+    
+    <div style="border: 2px dashed #ccc; border-radius: 10px; height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 10px; color: #888;">
+        <i class="fas fa-camera" style="font-size: 24px;"></i>
+        <span style="font-size: 12px; margin-top: 5px;">Photo चुनें</span>
+    </div>
+
+    <input type="text" placeholder="Product Category" style="width: 100%; padding: 10px; margin-bottom: 8px; border: 1px solid #eee; border-radius: 6px;">
+    <input type="text" placeholder="प्रोडक्ट का नाम" style="width: 100%; padding: 10px; margin-bottom: 8px; border: 1px solid #eee; border-radius: 6px;">
+    <input type="number" placeholder="कीमत (₹)" style="width: 100%; padding: 10px; margin-bottom: 8px; border: 1px solid #eee; border-radius: 6px;">
+    
+    <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+        <input type="text" placeholder="In/Out of Stock" style="flex: 2; padding: 10px; border: 1px solid #eee; border-radius: 6px;">
+        <input type="text" placeholder="Unit (Kg/L)" style="flex: 1; padding: 10px; border: 1px solid #eee; border-radius: 6px;">
+    </div>
+
+    <div style="display: flex; gap: 8px; margin-top: 10px;">
+        <button style="flex: 1; background: #ff9800; color: white; border: none; padding: 8px; border-radius: 6px; font-weight: bold; font-size: 12px;">Edit</button>
+        <button style="flex: 1; background: #f44336; color: white; border: none; padding: 8px; border-radius: 6px; font-weight: bold; font-size: 12px;">Delete</button>
+    </div>
+</div>
+`;
+
+// यहाँ आपका पुराना .insertAdjacentHTML वाला फंक्शन होगा
+document.getElementById('product-container').insertAdjacentHTML('beforeend', productHTML);
+        
                             
                             <input type="text" placeholder="प्रोडक्ट का नाम">
                             <input type="number" placeholder="कीमत (₹)">
