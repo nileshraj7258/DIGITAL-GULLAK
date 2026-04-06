@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title> SASTA STORE | Full Updated App </title>
+    <title> SASTA STORE | Full Edition </title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * { box-sizing: border-box; font-family: 'Poppins', sans-serif; margin: 0; padding: 0; }
-        body { background: #f8f9fa; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+        body { background: #fdfdfd; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
 
         /* --- Page Logic --- */
         .page { display: none; height: 100vh; flex-direction: column; overflow: hidden; }
         .active-page { display: flex; }
 
-        /* --- HOME PAGE STYLE --- */
+        /* --- 1. HOME PAGE (Original) --- */
         .home-header { background: url('https://img.freepik.com/free-photo/blurred-shelf-supermarket_74190-2115.jpg'); background-size: cover; padding: 20px; text-align: center; color: white; position: relative; }
         .home-header::before { content: ""; position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); z-index: 1; }
         .header-content { position: relative; z-index: 2; }
@@ -22,42 +22,43 @@
         .search-container { background: #fff; border-radius: 8px; padding: 10px; display: flex; align-items: center; margin-top: 10px; }
         .search-container input { border: none; flex: 1; outline: none; margin-left: 10px; }
 
-        /* --- ACCOUNT PAGE DESIGN (As per Image) --- */
-        .account-top { background: linear-gradient(135deg, #6200ea, #e91e63); height: 120px; position: relative; width: 100%; }
-        .profile-area { margin-top: -50px; text-align: center; position: relative; z-index: 5; }
-        .user-avatar { width: 100px; height: 100px; background: white; border-radius: 50%; border: 4px solid white; display: inline-flex; align-items: center; justify-content: center; font-size: 50px; color: #ccc; box-shadow: 0 4px 10px rgba(0,0,0,0.1); position: relative; }
-        .online-status { width: 15px; height: 15px; background: #4caf50; border-radius: 50%; border: 2px solid white; position: absolute; bottom: 5px; right: 5px; }
+        /* --- 2. NEW ACCOUNT DESIGN --- */
+        .profile-section { background: linear-gradient(135deg, #6200ea, #e91e63); height: 120px; width: 100%; position: relative; }
+        .avatar-area { margin-top: -50px; text-align: center; position: relative; z-index: 5; }
+        .avatar-box { width: 100px; height: 100px; background: white; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 50px; color: #ccc; border: 4px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         
-        .store-display-name { font-size: 24px; font-weight: 900; color: #333; margin-top: 10px; text-transform: uppercase; }
-        .rev-label { color: #ff5722; font-weight: bold; font-size: 14px; margin: 10px 0; }
+        .store-title { font-size: 24px; font-weight: 900; color: #333; margin-top: 10px; text-transform: uppercase; }
+        .rev-text { color: #ff5722; font-weight: bold; font-size: 14px; margin-bottom: 15px; }
 
-        /* Rating Buttons */
-        .rating-row { display: flex; gap: 10px; padding: 0 20px; margin-bottom: 20px; }
-        .rate-btn { flex: 1; background: white; padding: 15px 5px; border-radius: 12px; text-align: center; border: 1px solid #ddd; cursor: pointer; transition: 0.2s; }
-        .rate-btn:active { transform: scale(0.95); }
-        .rate-btn b { display: block; font-size: 20px; color: #333; }
-        .rate-btn span { font-size: 11px; font-weight: bold; color: #888; text-transform: uppercase; }
+        /* Ratings Row */
+        .ratings-row { display: flex; gap: 10px; padding: 0 20px; margin-bottom: 20px; }
+        .rate-card { flex: 1; background: white; padding: 12px 5px; border-radius: 15px; text-align: center; border: 1px solid #eee; }
+        .rate-card b { display: block; font-size: 20px; color: #333; }
+        .rate-card span { font-size: 10px; font-weight: bold; color: #888; text-transform: uppercase; }
 
         /* Action Buttons */
-        .action-list { padding: 0 20px; flex: 1; overflow-y: auto; }
-        .main-btn { background: white; color: #333; margin-bottom: 12px; padding: 16px; border-radius: 12px; display: flex; align-items: center; font-weight: bold; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border: 1px solid #eee; justify-content: space-between; }
-        .main-btn i { width: 30px; font-size: 18px; color: #6200ea; }
-        .locked-btn { filter: blur(2px); opacity: 0.5; pointer-events: none; }
+        .btn-list { padding: 0 20px; flex: 1; overflow-y: auto; }
         
-        .badge { background: #ff9800; color: white; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: 900; }
+        .btn-create { background: #6200ea; color: white; margin-bottom: 15px; padding: 18px; border-radius: 15px; display: flex; align-items: center; font-weight: bold; cursor: pointer; justify-content: space-between; box-shadow: 0 4px 10px rgba(98,0,234,0.2); }
+        
+        .btn-white { background: white; color: #333; margin-bottom: 12px; padding: 16px; border-radius: 15px; display: flex; align-items: center; font-weight: bold; cursor: pointer; border: 1px solid #eee; justify-content: space-between; }
+        .btn-white i { width: 30px; font-size: 18px; }
+        
+        .orange-badge { background: #ff9800; color: white; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 14px; }
 
-        /* --- FORMS & OVERLAYS --- */
+        .btn-blur { filter: blur(2px); opacity: 0.5; pointer-events: none; }
+
+        /* --- 3. OVERLAYS (Original Features) --- */
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; padding: 20px; overflow-y: auto; }
-        .form-card { background: white; border-radius: 20px; padding: 20px; width: 100%; }
+        .form-box { background: white; border-radius: 20px; padding: 20px; width: 100%; }
         
         .cam-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
-        .cam-item { aspect-ratio: 1; border: 2px dashed #ccc; border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #999; font-size: 11px; background: #fafafa; }
+        .cam-box { aspect-ratio: 1; border: 2px dashed #ccc; border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #999; font-size: 11px; background: #fafafa; }
         
         input, textarea, select { width: 100%; padding: 12px; margin-top: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
-        .submit-btn { width: 100%; background: #333; color: white; border: none; padding: 15px; border-radius: 10px; margin-top: 20px; font-weight: bold; cursor: pointer; }
 
         /* --- BOTTOM NAV --- */
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #fff; display: flex; padding: 12px 0; border-top: 1px solid #eee; z-index: 1000; }
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #fff; display: flex; padding: 12px 0; border-top: 1px solid #eee; }
         .nav-item { flex: 1; text-align: center; color: #bbb; cursor: pointer; font-size: 12px; font-weight: bold; }
         .nav-active { color: #ff9800; }
     </style>
@@ -69,207 +70,146 @@
             <div class="header-content">
                 <div class="logo-main">SASTA STORE <span style="background:#ff5722; padding:2px 8px; border-radius:5px; color:white">₹</span></div>
                 <div class="loc-box">
-                    <span><i class="fas fa-map-marker-alt" style="color:red"></i> Janakpuri, Delhi</span>
-                    <b style="color:#2196f3; font-size:12px">CHANGE</b>
+                    <span><i class="fas fa-map-marker-alt"></i> Janakpuri, Delhi</span>
+                    <span style="color:#2196f3; font-size:12px; font-weight:bold">CHANGE</span>
                 </div>
                 <div class="search-container">
-                    <i class="fas fa-search" style="color:#888"></i>
+                    <i class="fas fa-search"></i>
                     <input type="text" placeholder="Search for Products...">
                 </div>
             </div>
         </div>
-        <div style="padding: 20px; text-align: center; color: #888;">
-            <p>आपका स्वागत है! नीचे 'ACCOUNT' पर जाकर रजिस्ट्रेशन करें।</p>
-        </div>
+        <div style="padding:20px; color:#888; text-align:center;">Home content load ho raha hai...</div>
     </div>
 
-    <div id="account-page" class="page" style="background:#fdfdfd;">
-        <div class="account-top"></div>
-        <div class="profile-area">
-            <div class="user-avatar"><i class="fas fa-user"></i><div class="online-status"></div></div>
-            <div id="store-name-view" class="store-display-name">दुकान का नाम</div>
-            <div class="rev-label"><i class="fas fa-star"></i> REVIEWS</div>
+    <div id="account-page" class="page">
+        <div class="profile-section"></div>
+        <div class="avatar-area">
+            <div class="avatar-box"><i class="fas fa-user"></i></div>
+            <div id="view-store-name" class="store-title">SHOP NAME</div>
+            <div class="rev-text">REVIEWS</div>
         </div>
 
-        <div class="rating-row">
-            <div class="rate-btn" style="background:#e8f5e9; border-color:#c8e6c9;" onclick="addCount('count-good')">
-                <b id="count-good">0</b><span>GOOD</span>
-            </div>
-            <div class="rate-btn" style="background:#fff8e1; border-color:#ffecb3;" onclick="addCount('count-best')">
-                <b id="count-best">0</b><span>BEST</span>
-            </div>
-            <div class="rate-btn" style="background:#ffebee; border-color:#ffcdd2;" onclick="openOverlay('issue-overlay')">
-                <b id="count-issue">0</b><span>ISSUE</span>
-            </div>
+        <div class="ratings-row">
+            <div class="rate-card" onclick="upRate('g-count')"><b id="g-count">0</b><span>GOOD</span></div>
+            <div class="rate-card" onclick="upRate('b-count')"><b id="b-count">0</b><span>BEST</span></div>
+            <div class="rate-card" onclick="openOverlay('issue-overlay')"><b id="i-count">0</b><span>ISSUE</span></div>
         </div>
 
-        <div class="action-list">
-            <div class="main-btn" onclick="openOverlay('reg-overlay')" style="background:#6200ea; color:white; border:none;">
-                <span><i class="fas fa-plus-circle" style="color:white;"></i> Create Account</span>
-                <i class="fas fa-chevron-right" style="color:white; font-size:12px;"></i>
-            </div>
-            
-            <div id="lock-1" class="main-btn locked-btn" onclick="alert('Switching...')">
-                <span><i class="fas fa-exchange-alt"></i> Switch Account</span>
-                <i class="fas fa-chevron-right" style="font-size:12px; color:#ccc;"></i>
+        <div class="btn-list">
+            <div class="btn-create" onclick="openOverlay('create-acc-overlay')">
+                <span><i class="fas fa-plus-circle"></i> Create Account</span>
+                <i class="fas fa-chevron-right" style="font-size:12px;"></i>
             </div>
 
-            <div id="lock-2" class="main-btn locked-btn" onclick="openOverlay('add-prod-overlay')">
-                <span><i class="fas fa-cart-plus" style="color:#ff9800;"></i> Add Product</span>
-                <div id="prod-badge" class="badge">0</div>
+            <div id="l1" class="btn-white btn-blur">
+                <span><i class="fas fa-exchange-alt" style="color:#2196f3"></i> Switch Account</span>
+                <i class="fas fa-chevron-right" style="color:#ddd"></i>
             </div>
 
-            <div id="lock-3" class="main-btn locked-btn" onclick="openOverlay('details-view')">
-                <span><i class="fas fa-file-alt" style="color:#ef5350;"></i> Details</span>
-                <i class="fas fa-chevron-right" style="font-size:12px; color:#ccc;"></i>
+            <div id="l2" class="btn-white btn-blur" onclick="openOverlay('product-overlay')">
+                <span><i class="fas fa-cart-plus" style="color:#ff9800"></i> Add Product</span>
+                <div class="orange-badge" id="p-count">0</div>
             </div>
 
-            <div class="main-btn" style="background:#f44336; color:white; margin-top:20px; justify-content:center;">
-                <i class="fas fa-sign-out-alt" style="color:white; width:auto; margin-right:10px;"></i> LOGOUT
+            <div id="l3" class="btn-white btn-blur" onclick="openOverlay('details-overlay')">
+                <span><i class="fas fa-file-alt" style="color:#ef5350"></i> Details</span>
+                <i class="fas fa-chevron-right" style="color:#ddd"></i>
+            </div>
+
+            <div class="btn-white" style="margin-top:20px; background:#fff5f5; color:#f44336; justify-content:center;">
+                <i class="fas fa-sign-out-alt"></i> LOGOUT
             </div>
         </div>
         <div style="height:80px;"></div>
     </div>
 
-    <div id="reg-overlay" class="overlay">
-        <div class="form-card">
-            <h2 style="margin-bottom:10px;">दुकान का रजिस्ट्रेशन</h2>
-            <div style="max-height:70vh; overflow-y:auto; padding-right:5px;">
-                <input type="text" id="in-store-name" placeholder="दुकान का नाम (उदा: शर्मा जनरल स्टोर)">
-                <input type="text" placeholder="दुकानदार का नाम">
+    <div id="create-acc-overlay" class="overlay">
+        <div class="form-box">
+            <h2 style="margin-bottom:15px">दुकान का रजिस्ट्रेशन</h2>
+            <div style="max-height:70vh; overflow-y:auto; padding-right:5px">
+                <input type="text" id="regName" placeholder="दुकान का नाम">
+                <input type="text" placeholder="आपका नाम">
                 <select>
                     <option>दुकान की Category चुनें</option>
-                    <option>Sweets & Snacks</option>
-                    <option>Grocery/Kirana</option>
-                    <option>Dairy Products</option>
-                    <option>Mobile & Electronics</option>
+                    <option>Sweets</option>
+                    <option>Dairy</option>
                 </select>
 
                 <div class="cam-grid">
-                    <div class="cam-item"><i class="fas fa-camera"></i>Front Photo</div>
-                    <div class="cam-item"><i class="fas fa-camera"></i>Inside Photo</div>
-                    <div class="cam-item"><i class="fas fa-camera"></i>Rate List</div>
-                    <div class="cam-item"><i class="fas fa-camera"></i>Shop QR Code</div>
+                    <div class="cam-item"><div class="cam-box"><i class="fas fa-camera"></i>Front Photo</div></div>
+                    <div class="cam-item"><div class="cam-box"><i class="fas fa-camera"></i>Inside Photo</div></div>
+                    <div class="cam-item"><div class="cam-box"><i class="fas fa-camera"></i>Rate List</div></div>
+                    <div class="cam-item"><div class="cam-box"><i class="fas fa-camera"></i>Shop QR</div></div>
                 </div>
 
-                <div style="display:flex; gap:10px; margin-top:10px;">
-                    <div style="flex:1;">
-                        <label style="font-size:12px; font-weight:bold;">Open Time</label>
-                        <input type="time">
-                    </div>
-                    <div style="flex:1;">
-                        <label style="font-size:12px; font-weight:bold;">Close Time</label>
-                        <input type="time">
-                    </div>
+                <div style="display:flex; gap:10px;">
+                    <input type="time" title="Open"> <input type="time" title="Close">
                 </div>
-                <textarea id="in-details" placeholder="दुकान के बारे में कुछ खास लिखें (Details)..."></textarea>
+                
+                <div style="background:#e3f2fd; color:#1976d2; padding:15px; border-radius:10px; margin:10px 0; text-align:center; font-weight:bold" onclick="alert('GPS Location Set!')">
+                    <i class="fas fa-crosshairs"></i> Shop Location Set करें
+                </div>
+                
+                <textarea id="regDetails" placeholder="दुकान के बारे में विस्तार से लिखें..."></textarea>
             </div>
-            <button class="submit-btn" onclick="saveRegistration()">सबमिट करें (Submit)</button>
-            <p onclick="closeOverlay('reg-overlay')" style="text-align:center; margin-top:15px; color:#888; font-size:14px;">वापस जाएँ</p>
+            <button onclick="saveAcc()" style="width:100%; padding:15px; margin-top:10px; background:#4caf50; color:white; border:none; border-radius:10px; font-weight:bold">सबमिट करें</button>
+            <p onclick="closeOverlay('create-acc-overlay')" style="text-align:center; margin-top:10px; color:#888;">Back</p>
         </div>
     </div>
 
     <div id="issue-overlay" class="overlay">
-        <div class="form-card">
-            <h2 style="color:#d32f2f; margin-bottom:15px;">क्या समस्या है? (Report Issue)</h2>
-            <select id="issue-reason" onchange="toggleOther(this.value)">
-                <option value="">कारण चुनें</option>
-                <option value="1">Price jyada hai</option>
-                <option value="2">Saman nahin mila</option>
-                <option value="3">Quality acchi nahin thi</option>
-                <option value="4">Location galat tha</option>
-                <option value="5">Behaviour achcha nahin tha</option>
-                <option value="other">Other (अन्य)</option>
+        <div class="form-box">
+            <h2 style="color:red; margin-bottom:15px;">क्या समस्या है?</h2>
+            <select id="issueSelect" onchange="checkOther(this.value)">
+                <option>Price jyada hai</option>
+                <option>Saman nahin mila</option>
+                <option>Quality acchi nahin thi</option>
+                <option>Location galat tha</option>
+                <option>Behaviour achcha nahin tha</option>
+                <option value="other">Other</option>
             </select>
-            <textarea id="other-text" style="display:none;" placeholder="अपनी समस्या विस्तार से लिखें..."></textarea>
-            <button class="submit-btn" style="background:#f44336;" onclick="submitIssue()">रिपोर्ट सेव करें</button>
-        </div>
-    </div>
-
-    <div id="add-prod-overlay" class="overlay">
-        <div class="form-card">
-            <h2>नया सामान जोड़ें</h2>
-            <div class="cam-item" style="width:100%; height:120px; margin:15px 0;"><i class="fas fa-camera" style="font-size:30px;"></i>प्रोडक्ट की फोटो</div>
-            <input type="text" placeholder="सामान का नाम (उदा: दूध, समोसा)">
-            <input type="number" placeholder="कीमत (₹ Price)">
-            <button class="submit-btn" onclick="saveProduct()">प्रोडक्ट सेव करें</button>
-        </div>
-    </div>
-
-    <div id="details-view" class="overlay">
-        <div class="form-card">
-            <h2>दुकान की जानकारी</h2>
-            <div id="final-details-box" style="background:#f9f9f9; padding:15px; border-radius:10px; margin-top:15px; border-left:4px solid #6200ea;">
-                अभी कोई जानकारी उपलब्ध नहीं है।
-            </div>
-            <button class="submit-btn" onclick="closeOverlay('details-view')">बंद करें</button>
+            <textarea id="otherBox" style="display:none;" placeholder="अपनी समस्या लिखें..."></textarea>
+            <button onclick="saveIssue()" style="width:100%; padding:15px; margin-top:10px; background:#333; color:white; border:none; border-radius:10px;">रिपोर्ट करें</button>
         </div>
     </div>
 
     <div class="bottom-nav">
-        <div id="nav-h" class="nav-item nav-active" onclick="showPage('home')"><i class="fas fa-home"></i><br>HOME</div>
-        <div class="nav-item" style="color:#2196f3;"><i class="fas fa-map-marked-alt"></i><br>VIEW ON MAP</div>
-        <div id="nav-a" class="nav-item" onclick="showPage('account')"><i class="fas fa-user-circle"></i><br>MY ACCOUNT</div>
+        <div class="nav-item nav-active" onclick="showPage('home')"><i class="fas fa-home"></i><br>HOME</div>
+        <div class="nav-item" style="color:#2196f3;"><i class="fas fa-map-marked-alt"></i><br>MAP</div>
+        <div class="nav-item" onclick="showPage('account')"><i class="fas fa-user-circle"></i><br>ACCOUNT</div>
     </div>
 
     <script>
-        // 1. Page Switching
         function showPage(p) {
             document.querySelectorAll('.page').forEach(pg => pg.classList.remove('active-page'));
             document.getElementById(p + '-page').classList.add('active-page');
-            document.getElementById('nav-h').classList.remove('nav-active');
-            document.getElementById('nav-a').classList.remove('nav-active');
-            if(p==='home') document.getElementById('nav-h').classList.add('nav-active');
-            if(p==='account') document.getElementById('nav-a').classList.add('nav-active');
         }
-
-        // 2. Overlays
         function openOverlay(id) { document.getElementById(id).style.display = 'flex'; }
         function closeOverlay(id) { document.getElementById(id).style.display = 'none'; }
 
-        // 3. Registration
-        function saveRegistration() {
-            let name = document.getElementById('in-store-name').value;
-            let details = document.getElementById('in-details').value;
-            if(!name) return alert("दुकान का नाम लिखना ज़रूरी है!");
-            
-            document.getElementById('store-name-view').innerText = name;
-            document.getElementById('final-details-box').innerText = details || "कोई विशेष विवरण नहीं दिया गया।";
-            
-            // Unlock Sections
-            document.getElementById('lock-1').classList.remove('locked-btn');
-            document.getElementById('lock-2').classList.remove('locked-btn');
-            document.getElementById('lock-3').classList.remove('locked-btn');
-            
-            closeOverlay('reg-overlay');
-            alert("बधाई हो! आपकी दुकान का रजिस्ट्रेशन हो गया।");
-        }
-
-        // 4. Ratings
-        function addCount(id) {
+        function upRate(id) {
             let el = document.getElementById(id);
             el.innerText = parseInt(el.innerText) + 1;
         }
 
-        // 5. Issue Logic
-        function toggleOther(val) {
-            document.getElementById('other-text').style.display = (val === 'other') ? 'block' : 'none';
-        }
-        function submitIssue() {
-            addCount('count-issue');
+        function checkOther(v) { document.getElementById('otherBox').style.display = (v==='other') ? 'block' : 'none'; }
+
+        function saveIssue() {
+            upRate('i-count');
             closeOverlay('issue-overlay');
-            alert("समस्या दर्ज कर ली गई है।");
         }
 
-        // 6. Product Logic
-        let pTotal = 0;
-        function saveProduct() {
-            pTotal++;
-            document.getElementById('prod-badge').innerText = pTotal;
-            closeOverlay('add-prod-overlay');
-            alert("सामान जोड़ दिया गया है!");
+        let prods = 0;
+        function saveAcc() {
+            let n = document.getElementById('regName').value;
+            if(!n) return alert("नाम भरें");
+            document.getElementById('view-store-name').innerText = n;
+            document.getElementById('l1').classList.remove('btn-blur');
+            document.getElementById('l2').classList.remove('btn-blur');
+            document.getElementById('l3').classList.remove('btn-blur');
+            closeOverlay('create-acc-overlay');
         }
     </script>
 </body>
-                    </html>
-    
+</html>
