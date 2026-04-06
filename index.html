@@ -183,8 +183,14 @@
         function addNewProduct() {
             const html = `<div class="product-input-card">
                             <div class="camera-box"><i class="fas fa-camera"></i><span>Photo चुनें</span></div>
+                            <input type="text" placeholder="product category">
+                            
                             <input type="text" placeholder="प्रोडक्ट का नाम">
                             <input type="number" placeholder="कीमत (₹)">
+                            <input type="text" placeholder="out of stock/in stock">
+                            <input type="text" placeholder="Edit product">
+                            <input type="text" placeholder="Delete product">
+                            <input type="text" placeholder="product until kg/Litter/packets">
                           </div>`;
             document.getElementById('product-container').insertAdjacentHTML('beforeend', html);
         }
