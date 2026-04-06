@@ -3,27 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title> SASTA STORE | असली बिज़नेस ऐप</title>
+    <title>SASTA STORE | नई शुरुआत</title>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
-        * { box-sizing: border-box; font-family: 'Poppins', sans-serif; margin: 0; padding: 0; }
-        body { background: #f8f9fa; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+        /* 1. बुनियादी सेटिंग्स (Basic CSS) */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+        body { background-color: #f8f9fa; color: #333; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
 
         /* --- Page Logic --- */
         .page { display: none; height: 100vh; flex-direction: column; overflow: hidden; }
         .active-page { display: flex; }
 
-        /* --- 1. HOME PAGE --- */
-        .home-header { background: url('https://img.freepik.com/free-photo/blurred-shelf-supermarket_74190-2115.jpg'); background-size: cover; padding: 20px; text-align: center; color: white; position: relative; }
-        .home-header::before { content: ""; position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); z-index: 1; }
-        .header-content { position: relative; z-index: 2; }
-        .logo-main { font-size: 32px; font-weight: 900; color: #ffca28; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
-        .tagline { font-size: 14px; margin-bottom: 15px; }
+        /* --- OVERLAYS & FORMS --- */
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; padding: 20px; overflow-y: auto; }
+        .form-box { background: white; border-radius: 20px; padding: 20px; width: 100%; position: relative; }
         
-        .loc-box { background: #fff; border-radius: 8px; padding: 10px; display: flex; justify-content: space-between; align-items: center; color: #333; margin-bottom: 10px; }
-        .search-container { background: #fff; border-radius: 8px; padding: 10px; display: flex; align-items: center; }
-        .search-container input { border: none; flex: 1; outline: none; margin-left: 10px; }
+        input, textarea, select { width: 100%; padding: 12px; margin-top: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; background: #fafafa; }
+        input:focus { border-color: #ff9800; }
 
+        /* --- 1. HOME PAGE --- */
+        .home-header {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://img.freepik.com/free-photo/blurred-shelf-supermarket_74190-2115.jpg'); background-size: cover;
+            padding: 15px 20px; text-align: center; color: white; border-bottom: 2px solid #ddd; position: sticky; top: 0; z-index: 100;
+        }
+        .logo-main { color: #ffca28; font-weight: 900; font-size: 24px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        .logo-area p { font-size: 10px; color: #888; }
+        .google-icon {
+            width: 40px; height: 40px; border-radius: 50%; border: 1px solid #ddd;
+            display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); background: white;
+        }
+
+        .input-card { background: white; margin: 15px; padding: 15px; border-radius: 15px; border: 1px solid #ddd; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .photo-box { height: 120px; border: 2px dashed #bbb; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #888; background: #fafafa; margin-bottom: 12px; }
+        
         .cat-grid { display: flex; gap: 10px; padding: 15px; overflow-x: auto; scrollbar-width: none; }
         .cat-card { background: white; min-width: 80px; padding: 10px; border-radius: 12px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .cat-card i { font-size: 24px; color: #ff9800; display: block; margin-bottom: 5px; }
@@ -32,49 +47,91 @@
         .best-deals-head { padding: 10px 20px; font-weight: bold; display: flex; align-items: center; }
         .deal-dot { width: 8px; height: 8px; background: #ff5722; border-radius: 50%; margin-left: 10px; }
 
-        /* --- 2. ACCOUNT & BLUR LOGIC --- */
-        .user-icon-big { font-size: 60px; color: #ccc; background: #fff; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 30px auto; border: 2px solid #eee; }
-        .btn-blur { filter: blur(2px); opacity: 0.5; pointer-events: none; }
-        .btn-dark { background: #333; color: white; margin: 10px 20px; padding: 15px; border-radius: 12px; display: flex; align-items: center; font-weight: bold; cursor: pointer; }
-        .btn-dark i { width: 30px; }
-
-        /* --- 3. OVERLAYS & FORMS --- */
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; padding: 20px; overflow-y: auto; }
-        .form-box { background: white; border-radius: 20px; padding: 20px; width: 100%; }
+        /* --- 2. NEW ACCOUNT PAGE (As per Image) --- */
+        .account-header { background: linear-gradient(135deg, #6200ea, #e91e63); height: 150px; position: relative; }
+        .profile-container {
+            position: absolute; top: 100px; left: 50%; transform: translateX(-50%); text-align: center;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .user-icon-circle {
+            width: 100px; height: 100px; border-radius: 50%; background: white; border: 4px solid white;
+            display: flex; justify-content: center; align-items: center; font-size: 50px; color: #ccc;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); position: relative;
+        }
+        .online-dot { width: 18px; height: 18px; background: #4caf50; border-radius: 50%; position: absolute; bottom: 0; right: 0; border: 3px solid white; }
         
-        /* Product Box Design */
-        .product-input-card { background: #fff; border-radius: 15px; padding: 15px; margin-bottom: 15px; border: 1px solid #ddd; }
-        .camera-box { width: 100%; height: 100px; border: 2px dashed #bbb; border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #888; cursor: pointer; margin-bottom: 10px; background: #fff; }
-        .camera-box i { font-size: 24px; }
+        .store-name { color: #212121; font-weight: 900; font-size: 28px; margin-top: 15px; text-transform: uppercase; }
+        .reviews-title { font-size: 14px; color: #ff5722; font-weight: bold; display: flex; align-items: center; gap: 5px; justify-content: center; margin-bottom: 10px; }
         
-        .plus-btn { width: 50px; height: 50px; background: #4caf50; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 10px auto; font-size: 24px; cursor: pointer; }
+        /* रेटिंग कार्ड्स */
+        .rating-grid { display: flex; gap: 8px; justify-content: center; margin-bottom: 20px; padding: 0 20px; }
+        .rating-card {
+            flex: 1; text-align: center; padding: 15px 5px; border-radius: 12px; cursor: pointer; transition: 0.2s;
+            display: flex; flex-direction: column; align-items: center; border: 1px solid #ddd;
+        }
+        .rating-card:active { transform: scale(0.95); }
+        .rating-number { font-size: 30px; font-weight: 900; color: #333; }
+        .rating-label { font-size: 11px; font-weight: bold; text-transform: uppercase; margin-top: 4px; }
+        
+        /* बटन स्टाइल्स */
+        .btn-list { padding: 0 20px; }
+        .btn-action {
+            background: white; color: #333; margin-bottom: 12px; padding: 15px; border-radius: 12px;
+            display: flex; align-items: center; font-weight: bold; cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #eee; position: relative;
+        }
+        .btn-action:active { transform: scale(0.98); background: #fdfdfd; }
+        .btn-action i { width: 40px; font-size: 20px; }
+        
+        .product-count-badge {
+            background: #ff9800; color: white; width: 35px; height: 35px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 18px;
+            font-weight: 900; position: absolute; right: 15px;
+        }
+        .btn-logout {
+            background: #f44336; color: white; margin: 15px auto 100px auto; width: 90%;
+            padding: 15px; border-radius: 12px; text-align: center; font-weight: bold;
+            display: flex; justify-content: center; align-items: center; gap: 8px; cursor: pointer;
+        }
 
-        input, textarea, select { width: 100%; padding: 10px; margin-top: 8px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
+        /* लॉक स्टेट (Blur logic) */
+        .btn-blur { filter: blur(2px); opacity: 0.5; pointer-events: none; cursor: default; }
+
+        /* --- 3. PRODUCT BOX (Revised) --- */
+        .camera-box-revised { height: 100px; border: 2px dashed #ccc; margin-bottom: 10px; color: #999; }
 
         /* --- BOTTOM NAV --- */
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #fff; display: flex; padding: 12px 0; border-top: 1px solid #eee; }
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #fff; display: flex; padding: 12px 0; border-top: 1px solid #eee; z-index: 100; }
         .nav-item { flex: 1; text-align: center; color: #bbb; cursor: pointer; }
         .nav-active { color: #ff9800; }
+        .nav-map { color: #2196f3; }
     </style>
 </head>
 <body>
 
     <div id="home-page" class="page active-page">
-        <div class="home-header">
+        <header class="home-header">
             <div class="header-content">
-                <div class="logo-main">Sabse Sasta <span style="background:#ff5722; padding:2px 8px; border-radius:5px; color:white">₹</span></div>
-                <div class="tagline">Paas Mein Sabse Sasta Kahan?</div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div class="logo-area">
+                        <h1>SASTA STORE</h1>
+                        <p>पास में सबसे सस्ता कहाँ?</p>
+                    </div>
+                    <div class="google-icon">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="G" width="22">
+                    </div>
+                </div>
                 <div class="loc-box">
                     <span><i class="fas fa-map-marker-alt"></i> Janakpuri, Delhi</span>
                     <span style="color:#2196f3; font-size:12px; font-weight:bold">CHANGE</span>
                 </div>
                 <div class="search-container">
                     <i class="fas fa-search" style="color:#888"></i>
-                    <input type="text" placeholder="Search for Products (e.g. Milk, Sweets...)">
-                    <i class="fas fa-sliders-h" style="background:#ffca28; padding:5px; border-radius:5px"></i>
+                    <input type="text" placeholder="Search for Products (Milk, Sweets...)">
+                    <i class="fas fa-sliders-h" style="background:#ffca28; padding:5px; border-radius:5px; color:white;"></i>
                 </div>
             </div>
-        </div>
+        </header>
         <div class="main-scroll" style="overflow-y: auto; flex:1; padding-bottom:80px">
             <div class="cat-grid">
                 <div class="cat-card"><i class="fas fa-apple-alt"></i><span>Sweets</span></div>
@@ -87,96 +144,118 @@
         </div>
     </div>
 
-    <div id="account-page" class="page">
-        <div class="user-icon-big"><i class="fas fa-user"></i></div>
-        <div class="btn-dark" onclick="openOverlay('create-acc-overlay')"><i class="fas fa-plus-circle"></i> Create Account</div>
-        <div class="btn-dark btn-blur locked"><i class="fas fa-exchange-alt"></i> Switch Account</div>
-        <div class="btn-dark btn-blur locked" onclick="openOverlay('product-overlay')"><i class="fas fa-cart-plus"></i> Add Product</div>
-        <div class="btn-dark btn-blur locked" onclick="openOverlay('details-overlay')"><i class="fas fa-file-alt"></i> Details</div>
-        <div class="btn-dark" style="margin-top:auto; background:#f44336"><i class="fas fa-sign-out-alt"></i> Logout</div>
+    <div id="account-page" class="page" style="background: #fdfdfd;">
+        <header class="account-header"></header>
+        <div class="main-scroll" style="overflow-y: auto; flex:1;">
+            <div class="profile-container">
+                <div class="user-icon-circle"><i class="fas fa-user"></i><div class="online-dot"></div></div>
+                <h1 id="accountStoreNameDisplay" class="store-name">दुकान का नाम</h1>
+                <p class="reviews-title"><i class="fas fa-star"></i> REVIEWS</p>
+                
+                <div class="rating-grid locked">
+                    <div class="rating-card" style="background: #e8f5e9; border-color: #c8e6c9;" onclick="countRating('goodCount')">
+                        <span id="goodCountDisplay" class="rating-number">0</span><span class="rating-label" style="color: #2e7d32;">GOOD</span>
+                    </div>
+                    <div class="rating-card" style="background: #fff8e1; border-color: #ffecb3;" onclick="countRating('bestCount')">
+                        <span id="bestCountDisplay" class="rating-number">0</span><span class="rating-label" style="color: #ffa000;">BEST</span>
+                    </div>
+                    <div class="rating-card" style="background: #ffebee; border-color: #ffcdd2;" onclick="openOverlay('issue-overlay')">
+                        <span id="issueCountDisplay" class="rating-number">0</span><span class="rating-label" style="color: #d32f2f;">ISSUE</span>
+                    </div>
+                </div>
+
+                <div class="btn-list">
+                    <div class="btn-action" style="background: #6200ea; color: white; border: none; box-shadow: 0 4px 10px rgba(98, 0, 234, 0.3);" onclick="openOverlay('create-acc-overlay')">
+                        <i class="fas fa-plus-circle" style="color: white;"></i> Create Account
+                    </div>
+                    <div class="btn-action locked btn-blur" style="color: #2e7d32; border: none; box-shadow: 0 4px 10px rgba(102, 187, 106, 0.2);" onclick="alert('अकाउंट बदलें')">
+                        <i class="fas fa-exchange-alt" style="color: #66bb6a;"></i> Switch Account
+                    </div>
+                    <div class="btn-action locked btn-blur" style="border: none; box-shadow: 0 4px 10px rgba(255, 152, 0, 0.2);" onclick="openOverlay('product-overlay')">
+                        <i class="fas fa-cart-plus" style="color: #ff9800;"></i> Add Product
+                        <span id="productCountBadge" class="product-count-badge">0</span>
+                    </div>
+                    <div class="btn-action locked btn-blur" style="border: none; box-shadow: 0 4px 10px rgba(244, 67, 54, 0.1);" onclick="openOverlay('details-overlay')">
+                        <i class="fas fa-file-alt" style="color: #ef5350;"></i> Details
+                    </div>
+                </div>
+
+                <div class="btn-logout" onclick="alert('लॉगआउट!')"><i class="fas fa-sign-out-alt"></i> LOGOUT</div>
+            </div>
+        </div>
     </div>
 
     <div id="create-acc-overlay" class="overlay">
         <div class="form-box">
-            <h2 style="margin-bottom:15px">दुकान का रजिस्ट्रेशन</h2>
+            <h2 style="margin-bottom:10px;">दुकान का रजिस्ट्रेशन</h2>
             <div style="max-height:70vh; overflow-y:auto; padding-right:5px">
-                <input type="text" id="masterStoreName" placeholder="दुकान का नाम">
+                <input type="text" id="masterStoreName" placeholder="दुकान का नाम लिखें (जैसे: वर्मा स्वीट्स)">
                 <input type="text" placeholder="आपका नाम">
                 <input type="number" placeholder="मोबाइल नंबर">
-                <input type="number" placeholder="WhatsApp (Optional)">
                 <textarea placeholder="दुकान का पता"></textarea>
-                <div style="background:#e3f2fd; color:#1976d2; padding:15px; border-radius:10px; margin:10px 0; text-align:center; font-weight:bold" onclick="alert('GPS Set!')">
-                    <i class="fas fa-crosshairs"></i> Shop Location Set करें
-                </div>
-                <p style="font-weight:bold; font-size:12px; margin-top:10px">4 फोटो अपलोड करें:</p>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:5px">
-                    <div class="camera-box" style="height:60px; border-style:solid"><i class="fas fa-camera"></i></div>
-                    <div class="camera-box" style="height:60px; border-style:solid"><i class="fas fa-camera"></i></div>
-                    <div class="camera-box" style="height:60px; border-style:solid"><i class="fas fa-camera"></i></div>
-                    <div class="camera-box" style="height:60px; border-style:solid"><i class="fas fa-camera"></i></div>
-                </div>
-                <p style="font-weight:bold; font-size:12px; margin-top:10px">खुलने और बंद होने का समय:</p>
-                <div style="display:flex; gap:10px"><input type="time"><input type="time"></div>
             </div>
-            <button class="btn-dark" style="width:100%; margin:15px 0" onclick="finishRegistration()">सबमिट करें</button>
+            <button class="btn-action" style="width:100%; margin:15px 0; background: #333; color:white; justify-content:center;" onclick="finishRegistration()">सबमिट करें</button>
         </div>
     </div>
 
-    <div id="details-overlay" class="overlay">
+    <div id="issue-overlay" class="overlay">
         <div class="form-box">
-            <h2>दुकान के ऑफर्स</h2>
-            <p style="font-size:12px; color:#666">यहाँ अपनी दुकान के विशेष ऑफर लिखें (Max 500 शब्द)</p>
-            <textarea maxlength="500" style="height:200px" placeholder="उदा: आज चीनी पर 10% की छूट है..."></textarea>
-            <button class="btn-dark" style="width:100%; margin:15px 0" onclick="closeOverlay('details-overlay')">सेव करें</button>
+            <h2 style="margin-bottom:15px; color:#d32f2f">रिपोर्ट करें (Issue)</h2>
+            <div style="max-height:60vh; overflow-y:auto; padding-right:5px">
+                <select id="issueSelect">
+                    <option value="">Issue चुनें</option>
+                    <option value="price_high">Price Jyada Hai</option>
+                    <option value="item_missing">Saman Nahi Mila</option>
+                    <option value="quality_bad">Quality Acchi Nahi Thi</option>
+                    <option value="location_wrong">Location Galat Tha</option>
+                    <option value="behaviour_bad">Behaviour Accha Nahi Tha</option>
+                    <option value="other">Other</option>
+                </select>
+                <textarea id="issueOtherDesc" placeholder="अगर 'Other' चुना है, तो यहाँ लिखें..." style="display:none;"></textarea>
+            </div>
+            <button class="btn-action" style="width:100%; margin:15px 0; background: #f44336; color:white; justify-content:center;" onclick="closeOverlay('issue-overlay')">सेव करें</button>
         </div>
     </div>
 
     <div id="product-overlay" class="overlay">
         <div class="form-box">
-            <h2>प्रोडक्ट मैनेज करें</h2>
+            <h2 style="margin-bottom:10px;">प्रोडक्ट मैनेज करें</h2>
             <div id="product-container" style="max-height: 60vh; overflow-y: auto;">
-                
-                <div class="product-input-card">
-                    <div class="camera-box" onclick="alert('Photo Select')"><i class="fas fa-camera"></i><span>Photo चुनें</span></div>
-                    <input type="text" placeholder="प्रोडक्ट का नाम">
-                    <input type="text" placeholder="कैटेगरी (Sweets/Dairy)">
-                    
-                    <div style="display: flex; gap: 8px;">
-                        <input type="number" placeholder="कीमत (₹)" style="flex:1">
+                <div class="product-input-card" style="background: #fff; border: 1px solid #ddd; padding: 15px; border-radius: 12px; margin-bottom: 15px;">
+                    <div class="photo-box camera-box-revised"><i class="fas fa-camera"></i><span style="font-size:12px;">Photo चुनें</span></div>
+                    <input type="text" placeholder="नाम">
+                    <input type="number" placeholder="₹ कीमत">
+                    <div style="display:flex; gap:8px;">
+                        <input type="text" placeholder="Category" style="flex:1;">
                         <select style="flex:1; margin-top:8px;">
-                            <option>Unit (kg/L/pkt)</option>
-                            <option>kg</option>
-                            <option>Litre</option>
-                            <option>Packet</option>
-                            <option>Piece</option>
+                            <option>In Stock</option>
+                            <option>Out of Stock</option>
                         </select>
                     </div>
-
-                    <select style="color:#4caf50; font-weight:bold">
-                        <option value="in">In Stock</option>
-                        <option value="out">Out of Stock</option>
-                    </select>
-
-                    <div style="display: flex; gap: 8px; margin-top: 10px;">
-                        <button style="flex:1; background:#ff9800; color:white; border:none; padding:10px; border-radius:8px;">Edit</button>
-                        <button style="flex:1; background:#f44336; color:white; border:none; padding:10px; border-radius:8px;" onclick="this.parentElement.parentElement.remove()">Delete</button>
-                    </div>
                 </div>
-
             </div>
-            
             <div class="plus-btn" onclick="addNewProduct()"><i class="fas fa-plus"></i></div>
-            <button class="btn-dark" style="width:100%; margin:15px 0" onclick="closeOverlay('product-overlay')">प्रोडक्ट सेव करें</button>
+            <button class="btn-action" style="width:100%; margin:15px 0; background: #333; color:white; justify-content:center;" onclick="closeOverlay('product-overlay')">प्रोडक्ट सेव करें</button>
+        </div>
+    </div>
+
+    <div id="details-overlay" class="overlay">
+        <div class="form-box">
+            <h2>दुकान की जानकारी</h2>
+            <p style="font-size:12px; color:#666">यहाँ अपनी दुकान के विशेष ऑफर या विवरण लिखें।</p>
+            <textarea id="masterStoreDetails" maxlength="500" style="height:200px" placeholder="उदा: आज चीनी पर 10% की छूट है..."></textarea>
+            <button class="btn-action" style="width:100%; margin:15px 0; background: #333; color:white; justify-content:center;" onclick="closeOverlay('details-overlay')">सेव करें</button>
         </div>
     </div>
 
     <div class="bottom-nav">
         <div class="nav-item nav-active" onclick="showPage('home')"><i class="fas fa-home"></i><br><span>HOME</span></div>
-        <div class="nav-item" style="color:#2196f3"><i class="fas fa-map-marked-alt"></i><br><span>VIEW ON MAP</span></div>
+        <div class="nav-item nav-map" onclick="alert('MAP Opened')"><i class="fas fa-map-marked-alt"></i><br><span>VIEW ON MAP</span></div>
         <div class="nav-item" onclick="showPage('account')"><i class="fas fa-user-circle"></i><br><span>MY ACCOUNT</span></div>
     </div>
 
     <script>
+        // 1. पेज बदलने वाला लॉजिक
         function showPage(p) {
             document.querySelectorAll('.page').forEach(page => page.classList.remove('active-page'));
             document.getElementById(p + '-page').classList.add('active-page');
@@ -185,48 +264,66 @@
             if(p==='account') document.querySelectorAll('.nav-item')[2].classList.add('nav-active');
         }
 
+        // 2. पॉप-अप खोलने/बंद करने का लॉजिक
         function openOverlay(id) { document.getElementById(id).style.display = 'flex'; }
         function closeOverlay(id) { document.getElementById(id).style.display = 'none'; }
 
+        // 3. 'Issue' पॉप-अप का विशेष लॉजिक (Other checkbox)
+        document.getElementById('issueSelect').addEventListener('change', function() {
+            const otherDesc = document.getElementById('issueOtherDesc');
+            otherDesc.style.display = (this.value === 'other') ? 'block' : 'none';
+        });
+
+        // 4. रजिस्ट्रेशन लॉजिक (Create Account)
         function finishRegistration() {
-            if(document.getElementById('masterStoreName').value === "") return alert("नाम लिखें!");
+            const storeNameInput = document.getElementById('masterStoreName');
+            const storeName = storeNameInput.value;
+            
+            if(storeName === "") return alert("दुकान का नाम लिखें!");
+
+            // नाम को अकाउंट पेज पर डिस्प्ले करें
+            document.getElementById('accountStoreNameDisplay').innerText = storeName;
+
+            // लॉक्ड बटन को अनलॉक करें
             document.querySelectorAll('.locked').forEach(el => {
                 el.classList.remove('btn-blur');
                 el.style.pointerEvents = 'auto';
                 el.style.opacity = '1';
             });
+            
             closeOverlay('create-acc-overlay');
-            alert("अकाउंट एक्टिवेट हो गया!");
+            alert("अकाउंट एक्टिवेट हो गया! अब आप सामान जोड़ सकते हैं।");
         }
 
-        // Updated function to add everything in ONE box
+        // 5. रेटिंग काउंट करने वाला लॉजिक (Local Variable based)
+        let ratings = { goodCount: 0, bestCount: 0, issueCount: 0 };
+        function countRating(ratingType) {
+            // लॉजिक: एक फोन से एक ही बार क्लिक - अभी लोकल लेवल पर नहीं हो सकता (Require Database)
+            ratings[ratingType]++;
+            document.getElementById(ratingType + 'Display').innerText = ratings[ratingType];
+        }
+
+        // 6. प्रोडक्ट जोड़ने और काउंट करने वाला लॉजिक
+        let productCount = 1; // शुरुआत में एक डिब्बा है
         function addNewProduct() {
-            const html = `
-                <div class="product-input-card">
-                    <div class="camera-box"><i class="fas fa-camera"></i><span>Photo चुनें</span></div>
-                    <input type="text" placeholder="प्रोडक्ट का नाम">
-                    <input type="text" placeholder="कैटेगरी">
-                    <div style="display: flex; gap: 8px;">
-                        <input type="number" placeholder="कीमत (₹)" style="flex:1">
-                        <select style="flex:1; margin-top:8px;">
-                            <option>Unit</option>
-                            <option>kg</option>
-                            <option>Litre</option>
-                            <option>Packet</option>
-                        </select>
-                    </div>
-                    <select style="color:#4caf50; font-weight:bold">
-                        <option value="in">In Stock</option>
-                        <option value="out">Out of Stock</option>
-                    </select>
-                    <div style="display: flex; gap: 8px; margin-top: 10px;">
-                        <button style="flex:1; background:#ff9800; color:white; border:none; padding:10px; border-radius:8px;">Edit</button>
-                        <button style="flex:1; background:#f44336; color:white; border:none; padding:10px; border-radius:8px;" onclick="this.parentElement.parentElement.remove()">Delete</button>
-                    </div>
-                </div>`;
+            productCount++;
+            const html = `<div class="product-input-card" style="background: #fff; border: 1px solid #ddd; padding: 15px; border-radius: 12px; margin-bottom: 15px;">
+                            <div class="photo-box camera-box-revised"><i class="fas fa-camera"></i><span style="font-size:12px;">Photo चुनें</span></div>
+                            <input type="text" placeholder="नाम">
+                            <input type="number" placeholder="₹ कीमत">
+                            <div style="display:flex; gap:8px;">
+                                <input type="text" placeholder="Category" style="flex:1;">
+                                <select style="flex:1; margin-top:8px;">
+                                    <option>In Stock</option>
+                                    <option>Out of Stock</option>
+                                </select>
+                            </div>
+                          </div>`;
             document.getElementById('product-container').insertAdjacentHTML('beforeend', html);
+            
+            // 'Add Product' बटन के बगल में संख्या बढ़ाएँ
+            document.getElementById('productCountBadge').innerText = productCount;
         }
     </script>
 </body>
-    </html>
-    
+</html>
